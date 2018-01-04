@@ -62,6 +62,10 @@ public class EventPublishingRunListener implements SpringApplicationRunListener,
 		return 0;
 	}
 
+	/**
+	 * 默认运行监听器，进行广播，
+	 *
+	 */
 	@Override
 	@SuppressWarnings("deprecation")
 	public void starting() {

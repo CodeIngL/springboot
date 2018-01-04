@@ -157,6 +157,7 @@ public class SpringApplication {
 	/**
 	 * The class name of application context that will be used by default for web
 	 * environments.
+	 * 这个应用类上下文将默认的被使用整个web环境
 	 */
 	public static final String DEFAULT_WEB_CONTEXT_CLASS = "org.springframework."
 			+ "boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext";
@@ -178,8 +179,10 @@ public class SpringApplication {
 
 	private static final Log logger = LogFactory.getLog(SpringApplication.class);
 
+	//维护了一个主类集合
 	private final Set<Object> sources = new LinkedHashSet<Object>();
 
+	//主类
 	private Class<?> mainApplicationClass;
 
 	private Banner.Mode bannerMode = Banner.Mode.CONSOLE;
@@ -198,8 +201,10 @@ public class SpringApplication {
 
 	private Class<? extends ConfigurableApplicationContext> applicationContextClass;
 
+	//是否处于web环境
 	private boolean webEnvironment;
 
+	//默认的headless默认，可以配置
 	private boolean headless = true;
 
 	private boolean registerShutdownHook = true;
@@ -240,18 +245,32 @@ public class SpringApplication {
 		initialize(sources);
 	}
 
+	/**
+	 * 初始化主类，也就是经常我们使用注解{@link SpringApplication}的主类
+	 * @param sources
+	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void initialize(Object[] sources) {
 		if (sources != null && sources.length > 0) {
 			this.sources.addAll(Arrays.asList(sources));
 		}
+		//进行环境预测
 		this.webEnvironment = deduceWebEnvironment();
+		//设置所用的ApplicationContextInitializer的实例列表
 		setInitializers((Collection) getSpringFactoriesInstances(
 				ApplicationContextInitializer.class));
+		//设置所用的ApplicationListener的实例列表
 		setListeners((Collection) getSpringFactoriesInstances(ApplicationListener.class));
+		//获得main类。也就是包含main函数的类
 		this.mainApplicationClass = deduceMainApplicationClass();
 	}
 
+	/**
+	 * 推断是否处于web环境
+	 * web环境中，只要这两个类存在javax.servlet.Servlet
+	 * org.springframework.web.context.ConfigurableWebApplicationContext。ji我们推断是web环境
+	 * @return
+	 */
 	private boolean deduceWebEnvironment() {
 		for (String className : WEB_ENVIRONMENT_CLASSES) {
 			if (!ClassUtils.isPresent(className, null)) {
@@ -261,6 +280,10 @@ public class SpringApplication {
 		return true;
 	}
 
+	/**
+	 * 简单的预测获得main函数所在的类
+	 * @return
+	 */
 	private Class<?> deduceMainApplicationClass() {
 		try {
 			StackTraceElement[] stackTrace = new RuntimeException().getStackTrace();
@@ -279,35 +302,58 @@ public class SpringApplication {
 	/**
 	 * Run the Spring application, creating and refreshing a new
 	 * {@link ApplicationContext}.
-	 * @param args the application arguments (usually passed from a Java main method)
-	 * @return a running {@link ApplicationContext}
+	 *
+	 * 开始运行Spring 工厂，创建或者刷新新的应用上下文环境
+	 * @param args the application arguments (usually passed from a Java main method) 。通常指的的是main方法的参数
+	 * @return a running {@link ApplicationContext} 一个正在运行中的上下文环境
 	 */
 	public ConfigurableApplicationContext run(String... args) {
+		//无关重点
 		StopWatch stopWatch = new StopWatch();
 		stopWatch.start();
+
 		ConfigurableApplicationContext context = null;
 		FailureAnalyzers analyzers = null;
+		//配置校验headless模式
 		configureHeadlessProperty();
+		//通过参数构建获得运行时的监听器
 		SpringApplicationRunListeners listeners = getRunListeners(args);
+		//监听集合启动
 		listeners.starting();
 		try {
+			//构建默认的应用参数，也就是从main函数中带过来的参数
 			ApplicationArguments applicationArguments = new DefaultApplicationArguments(
 					args);
+			//构建一个可配置的环境，也就是包装了运行监听器和默认的应用参数
 			ConfigurableEnvironment environment = prepareEnvironment(listeners,
 					applicationArguments);
+			//打印logo不是我们必备的
 			Banner printedBanner = printBanner(environment);
+			//创建应用上下文
 			context = createApplicationContext();
+			//创建失败分析其
 			analyzers = new FailureAnalyzers(context);
+
+			//------------------重点---------------------
+			//预处理上下文
 			prepareContext(context, environment, listeners, applicationArguments,
 					printedBanner);
+			//进行刷新
 			refreshContext(context);
+			//刷新后操作
 			afterRefresh(context, applicationArguments);
+
+			//------------------重点结束---------------------
+			//监听器广播
 			listeners.finished(context, null);
+			//无所谓
 			stopWatch.stop();
+			//启动信心是否打印，也是个无所谓的操作
 			if (this.logStartupInfo) {
 				new StartupInfoLogger(this.mainApplicationClass)
 						.logStarted(getApplicationLog(), stopWatch);
 			}
+			//返回上下文
 			return context;
 		}
 		catch (Throwable ex) {
@@ -330,12 +376,24 @@ public class SpringApplication {
 		return environment;
 	}
 
+	/**
+	 * 预处理上下文环境
+	 * @param context 上下文环境
+	 * @param environment 环境
+	 * @param listeners 运行监听器
+	 * @param applicationArguments main参数
+	 * @param printedBanner logo打印
+	 */
 	private void prepareContext(ConfigurableApplicationContext context,
 			ConfigurableEnvironment environment, SpringApplicationRunListeners listeners,
 			ApplicationArguments applicationArguments, Banner printedBanner) {
+		//上下文设置环境
 		context.setEnvironment(environment);
+		//处理上下文
 		postProcessApplicationContext(context);
+		//在上下文中应用ApplicationContextInitializer
 		applyInitializers(context);
+		//监听器处理
 		listeners.contextPrepared(context);
 		if (this.logStartupInfo) {
 			logStartupInfo(context.getParent() == null);
@@ -368,33 +426,72 @@ public class SpringApplication {
 		}
 	}
 
+	/**
+	 * 配置headless模式
+	 */
 	private void configureHeadlessProperty() {
 		System.setProperty(SYSTEM_PROPERTY_JAVA_AWT_HEADLESS, System.getProperty(
 				SYSTEM_PROPERTY_JAVA_AWT_HEADLESS, Boolean.toString(this.headless)));
 	}
 
+	/**
+	 * 获得运行时的监听器列表
+	 * @param args
+	 * @return
+	 */
 	private SpringApplicationRunListeners getRunListeners(String[] args) {
 		Class<?>[] types = new Class<?>[] { SpringApplication.class, String[].class };
+		//通过工厂获得所用配置的SpringApplicationRunListener类，从维护一个监听器的列表
+		//默认的只有EventPublishingRunListener，如果你要自己使用，那么一个非常重要的因素是，
+		//对应该接口的实现类，你需要提供一个带两个参数的的构造函数，第一个SpringApplication也就是启动类，
+		//另一个往往是main的参数
 		return new SpringApplicationRunListeners(logger, getSpringFactoriesInstances(
 				SpringApplicationRunListener.class, types, this, args));
 	}
 
+	/**
+	 * 获得springFactory
+	 * @param type 工厂类
+	 * @param <T> 类型
+	 * @return 工厂
+	 */
 	private <T> Collection<? extends T> getSpringFactoriesInstances(Class<T> type) {
 		return getSpringFactoriesInstances(type, new Class<?>[] {});
 	}
 
+	/**
+	 * 获得springFactory
+	 * @param type 工厂类
+	 * @param parameterTypes 工厂仓鼠
+	 * @param args 参数值
+	 * @param <T> 工厂实例
+	 * @return
+	 */
 	private <T> Collection<? extends T> getSpringFactoriesInstances(Class<T> type,
 			Class<?>[] parameterTypes, Object... args) {
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		// Use names and ensure unique to protect against duplicates
+		// 获得名字防止重复
 		Set<String> names = new LinkedHashSet<String>(
 				SpringFactoriesLoader.loadFactoryNames(type, classLoader));
+		//获得匹配的工厂类
 		List<T> instances = createSpringFactoriesInstances(type, parameterTypes,
 				classLoader, args, names);
+		//简单的按优先级进行排序，order
 		AnnotationAwareOrderComparator.sort(instances);
 		return instances;
 	}
 
+	/**
+	 * 获得工厂实例
+	 * @param type 工厂类类型
+	 * @param parameterTypes 参数类型
+	 * @param classLoader 类加载器
+	 * @param args 实际参数
+	 * @param names
+	 * @param <T>
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	private <T> List<T> createSpringFactoriesInstances(Class<T> type,
 			Class<?>[] parameterTypes, ClassLoader classLoader, Object[] args,
@@ -509,6 +606,8 @@ public class SpringApplication {
 	 * Strategy method used to create the {@link ApplicationContext}. By default this
 	 * method will respect any explicitly set application context or application context
 	 * class before falling back to a suitable default.
+	 *
+	 * 创建还未刷新过的上下文环境，提供了多种策略，编码设置最优先，其次是根据是否是web环境标准来决定使用哪个上下文环境
 	 * @return the application context (not yet refreshed)
 	 * @see #setApplicationContextClass(Class)
 	 */
@@ -535,11 +634,14 @@ public class SpringApplication {
 	 * @param context the application context
 	 */
 	protected void postProcessApplicationContext(ConfigurableApplicationContext context) {
+		//beanName生成器
 		if (this.beanNameGenerator != null) {
+			//尝试注册内部beanName生成器
 			context.getBeanFactory().registerSingleton(
 					AnnotationConfigUtils.CONFIGURATION_BEAN_NAME_GENERATOR,
 					this.beanNameGenerator);
 		}
+		//资源加载
 		if (this.resourceLoader != null) {
 			if (context instanceof GenericApplicationContext) {
 				((GenericApplicationContext) context)

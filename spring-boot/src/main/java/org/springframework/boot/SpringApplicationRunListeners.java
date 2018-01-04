@@ -28,6 +28,7 @@ import org.springframework.util.ReflectionUtils;
 
 /**
  * A collection of {@link SpringApplicationRunListener}.
+ * 一个spring运行监听器的集合
  *
  * @author Phillip Webb
  */
@@ -43,6 +44,10 @@ class SpringApplicationRunListeners {
 		this.listeners = new ArrayList<SpringApplicationRunListener>(listeners);
 	}
 
+	/**
+	 * 启动就是变量所有的监听器进行启动，
+	 * 一般开发者选项中只有EventPublishingRunListener。请见其start
+	 */
 	public void starting() {
 		for (SpringApplicationRunListener listener : this.listeners) {
 			listener.starting();
