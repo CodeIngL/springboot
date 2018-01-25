@@ -51,21 +51,32 @@ import org.springframework.util.StringUtils;
  * {@link XmlBeanDefinitionReader} and {@link ClassPathBeanDefinitionScanner}. See
  * {@link SpringApplication} for the types of sources that are supported.
  *
+ * <p>
+ *     从底层源加载bean定义，包括XML和JavaConfig。
+ *     充当AnnotatedBeanDefinitionReader，XmlBeanDefinitionReader和ClassPathBeanDefinitionScanner的简单外观。
+ *     请参阅SpringApplication获取支持的源类型。
+ * </p>
  * @author Phillip Webb
  * @see #setBeanNameGenerator(BeanNameGenerator)
  */
 class BeanDefinitionLoader {
 
+	//配置类
 	private final Object[] sources;
 
+	//注解读取器
 	private final AnnotatedBeanDefinitionReader annotatedReader;
 
+	//xml读取器
 	private final XmlBeanDefinitionReader xmlReader;
 
+	//groovy读取器
 	private BeanDefinitionReader groovyReader;
 
+	//类路径扫描器
 	private final ClassPathBeanDefinitionScanner scanner;
 
+	//资源加载器
 	private ResourceLoader resourceLoader;
 
 	/**
@@ -162,6 +173,11 @@ class BeanDefinitionLoader {
 		return 0;
 	}
 
+	/**
+	 * 加载
+	 * @param source
+	 * @return
+	 */
 	private int load(GroovyBeanDefinitionSource source) {
 		int before = this.xmlReader.getRegistry().getBeanDefinitionCount();
 		((GroovyBeanDefinitionReader) this.groovyReader).beans(source.getBeans());
@@ -169,6 +185,11 @@ class BeanDefinitionLoader {
 		return after - before;
 	}
 
+	/**
+	 * 加载资源，xml or groovy
+	 * @param source
+	 * @return
+	 */
 	private int load(Resource source) {
 		if (source.getFilename().endsWith(".groovy")) {
 			if (this.groovyReader == null) {
@@ -180,6 +201,11 @@ class BeanDefinitionLoader {
 		return this.xmlReader.loadBeanDefinitions(source);
 	}
 
+	/**
+	 * 加载包，扫描
+	 * @param source
+	 * @return
+	 */
 	private int load(Package source) {
 		return this.scanner.scan(source.getName());
 	}

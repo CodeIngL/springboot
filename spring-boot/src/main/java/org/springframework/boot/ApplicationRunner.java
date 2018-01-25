@@ -25,6 +25,12 @@ import org.springframework.core.annotation.Order;
  * within the same application context and can be ordered using the {@link Ordered}
  * interface or {@link Order @Order} annotation.
  *
+ * <p>
+ *     用来表示一个bean包含在SpringApplication中的时候应该运行的接口。
+ *     可以在同一个应用程序上下文中定义多个ApplicationRunner bean，
+ *     并可以使用Ordered接口或@Order注释进行排序。
+ * </p>
+ *
  * @author Phillip Webb
  * @since 1.3.0
  * @see CommandLineRunner

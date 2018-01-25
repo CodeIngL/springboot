@@ -42,11 +42,17 @@ public interface SpringApplicationRunListener {
 	/**
 	 * Called immediately when the run method has first started. Can be used for very
 	 * early initialization.
+	 * <p>
+	 *     运行方法刚开始时立即调用。 可以用于很早的初始化。
+	 * </p>
 	 */
 	void starting();
 
 	/**
 	 * Called once the environment has been prepared, but before the
+	 * <p>
+	 *     一旦环境已经准备好，但在ApplicationContext被创建之前调用。
+	 * </p>
 	 * {@link ApplicationContext} has been created.
 	 * @param environment the environment
 	 */
@@ -55,6 +61,9 @@ public interface SpringApplicationRunListener {
 	/**
 	 * Called once the {@link ApplicationContext} has been created and prepared, but
 	 * before sources have been loaded.
+	 * <p>
+	 *     一旦ApplicationContext被创建和准备，但在源文件被加载之前调用。
+	 * </p>
 	 * @param context the application context
 	 */
 	void contextPrepared(ConfigurableApplicationContext context);
@@ -62,12 +71,18 @@ public interface SpringApplicationRunListener {
 	/**
 	 * Called once the application context has been loaded but before it has been
 	 * refreshed.
+	 * <p>
+	 *     调用一次应用程序上下文已被加载，但尚未刷新。
+	 * </p>
 	 * @param context the application context
 	 */
 	void contextLoaded(ConfigurableApplicationContext context);
 
 	/**
 	 * Called immediately before the run method finishes.
+	 * <p>
+	 *     在运行方法结束之前立即调用。
+	 * </p>
 	 * @param context the application context or null if a failure occurred before the
 	 * context was created
 	 * @param exception any run exception or null if run completed successfully.

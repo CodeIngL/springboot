@@ -324,7 +324,7 @@ public class SpringApplication {
 		configureHeadlessProperty();
 		//通过参数构建获得运行时的监听器
 		SpringApplicationRunListeners listeners = getRunListeners(args);
-		//监听集合启动
+		//监听集合启动-->SpringApplicationRunListener生命周期第一步
 		listeners.starting();
 		try {
 			//构建默认的应用参数，也就是从main函数中带过来的参数
@@ -350,7 +350,7 @@ public class SpringApplication {
 			afterRefresh(context, applicationArguments);
 
 			//------------------重点结束---------------------
-			//监听器广播
+			//监听器广播-->SpringApplicationRunListener生命周期最后一步
 			listeners.finished(context, null);
 			//无所谓
 			stopWatch.stop();
@@ -372,8 +372,10 @@ public class SpringApplication {
 			SpringApplicationRunListeners listeners,
 			ApplicationArguments applicationArguments) {
 		// Create and configure the environment
+		// 创建和配置环境
 		ConfigurableEnvironment environment = getOrCreateEnvironment();
 		configureEnvironment(environment, applicationArguments.getSourceArgs());
+		//监听器处理--->SpringApplicationRunListener生命周期第二步
 		listeners.environmentPrepared(environment);
 		if (!this.webEnvironment) {
 			environment = new EnvironmentConverter(getClassLoader())
@@ -399,7 +401,7 @@ public class SpringApplication {
 		postProcessApplicationContext(context);
 		//在上下文中应用ApplicationContextInitializer
 		applyInitializers(context);
-		//监听器处理
+		//监听器处理-->SpringApplicationRunListener生命周期第三步
 		listeners.contextPrepared(context);
 		if (this.logStartupInfo) {
 			logStartupInfo(context.getParent() == null);
@@ -407,6 +409,7 @@ public class SpringApplication {
 		}
 
 		// Add boot specific singleton beans
+		// 添加启动特定的单例bean
 		context.getBeanFactory().registerSingleton("springApplicationArguments",
 				applicationArguments);
 		if (printedBanner != null) {
@@ -414,16 +417,23 @@ public class SpringApplication {
 		}
 
 		// Load the sources
+		// 加载源(配置类)
 		Set<Object> sources = getSources();
 		Assert.notEmpty(sources, "Sources must not be empty");
 		load(context, sources.toArray(new Object[sources.size()]));
+		//监听器处理--->SpringApplicationRunListener生命周期第四步
 		listeners.contextLoaded(context);
 	}
 
+	/**
+	 * 刷新上下文,进入applicationContext的生命模板周期
+	 * @param context
+	 */
 	private void refreshContext(ConfigurableApplicationContext context) {
 		refresh(context);
 		if (this.registerShutdownHook) {
 			try {
+				//异步逻辑上--->doClose()
 				context.registerShutdownHook();
 			}
 			catch (AccessControlException ex) {
@@ -520,6 +530,10 @@ public class SpringApplication {
 		return instances;
 	}
 
+	/**
+	 * 获得或者创建环境
+	 * @return
+	 */
 	private ConfigurableEnvironment getOrCreateEnvironment() {
 		if (this.environment != null) {
 			return this.environment;
@@ -536,6 +550,11 @@ public class SpringApplication {
 	 * {@link #configureProfiles(ConfigurableEnvironment, String[])} in that order.
 	 * Override this method for complete control over Environment customization, or one of
 	 * the above for fine-grained control over property sources or profiles, respectively.
+	 *
+	 * <p>
+	 *     模板方法以此顺序委托给configurePropertySources（ConfigurableEnvironment，String []）和configureProfiles（ConfigurableEnvironment，String []）。
+	 *     重写此方法以完全控制环境自定义，或者分别对属性来源或配置文件进行细粒度控制。
+	 * </p>
 	 * @param environment this application's environment
 	 * @param args arguments passed to the {@code run} method
 	 * @see #configureProfiles(ConfigurableEnvironment, String[])
@@ -550,6 +569,11 @@ public class SpringApplication {
 	/**
 	 * Add, remove or re-order any {@link PropertySource}s in this application's
 	 * environment.
+	 *
+	 * <p>
+	 *     在此应用程序的环境中添加，删除或重新排序任何PropertySources。
+	 * </p>
+	 *
 	 * @param environment this application's environment
 	 * @param args arguments passed to the {@code run} method
 	 * @see #configureEnvironment(ConfigurableEnvironment, String[])
@@ -581,6 +605,11 @@ public class SpringApplication {
 	 * Configure which profiles are active (or active by default) for this application
 	 * environment. Additional profiles may be activated during configuration file
 	 * processing via the {@code spring.profiles.active} property.
+	 *
+	 * <p>
+	 *     为此应用程序环境配置哪些配置文件处于活动状态（或默认为活动状态） 在配置文件处理期间，可以通过spring.profiles.active属性激活其他配置文件。
+	 * </p>
+	 *
 	 * @param environment this application's environment
 	 * @param args arguments passed to the {@code run} method
 	 * @see #configureEnvironment(ConfigurableEnvironment, String[])
@@ -721,6 +750,10 @@ public class SpringApplication {
 
 	/**
 	 * Load beans into the application context.
+	 *
+	 * <p>
+	 *     将Bean加载到应用程序上下文中。
+	 * </p>
 	 * @param context the context to load beans into
 	 * @param sources the sources to load
 	 */
@@ -729,6 +762,7 @@ public class SpringApplication {
 			logger.debug(
 					"Loading source " + StringUtils.arrayToCommaDelimitedString(sources));
 		}
+		//获得bean定义加载器
 		BeanDefinitionLoader loader = createBeanDefinitionLoader(
 				getBeanDefinitionRegistry(context), sources);
 		if (this.beanNameGenerator != null) {
@@ -767,6 +801,9 @@ public class SpringApplication {
 
 	/**
 	 * Get the bean definition registry.
+	 * <p>
+	 *     获取bean定义注册表。
+	 * </p>
 	 * @param context the application context
 	 * @return the BeanDefinitionRegistry if it can be determined
 	 */
@@ -783,6 +820,9 @@ public class SpringApplication {
 
 	/**
 	 * Factory method used to create the {@link BeanDefinitionLoader}.
+	 * <p>
+	 *     用于创建BeanDefinitionLoader的工厂方法。
+	 * </p>
 	 * @param registry the bean definition registry
 	 * @param sources the sources to load
 	 * @return the {@link BeanDefinitionLoader} that will be used to load beans
@@ -794,6 +834,9 @@ public class SpringApplication {
 
 	/**
 	 * Refresh the underlying {@link ApplicationContext}.
+	 * <p>
+	 *     刷新底层的ApplicationContext。
+	 * </p>
 	 * @param applicationContext the application context to refresh
 	 */
 	protected void refresh(ApplicationContext applicationContext) {
@@ -803,6 +846,10 @@ public class SpringApplication {
 
 	/**
 	 * Called after the context has been refreshed.
+	 *
+	 * <p>
+	 *     在上下文被刷新后调用。
+	 * </p>
 	 * @param context the application context
 	 * @param args the application arguments
 	 */
@@ -811,6 +858,16 @@ public class SpringApplication {
 		callRunners(context, args);
 	}
 
+	/**
+	 * <p>
+	 *     在上下文被刷新后调用。
+	 * </p>
+	 * <p>
+	 *     集合ApplicationRunner,CommandLineRunner.
+	 * </p>
+	 * @param context
+	 * @param args
+	 */
 	private void callRunners(ApplicationContext context, ApplicationArguments args) {
 		List<Object> runners = new ArrayList<Object>();
 		runners.addAll(context.getBeansOfType(ApplicationRunner.class).values());
@@ -826,6 +883,14 @@ public class SpringApplication {
 		}
 	}
 
+	/**
+	 * Callback used to run the bean.
+	 * <p>
+	 *     用于运行该bean的回调。
+	 * </p>
+	 * @param runner
+	 * @param args
+	 */
 	private void callRunner(ApplicationRunner runner, ApplicationArguments args) {
 		try {
 			(runner).run(args);
@@ -835,6 +900,13 @@ public class SpringApplication {
 		}
 	}
 
+	/**
+	 * Callback used to run the bean.
+	 * <p>
+	 *     用于运行该bean的回调。
+	 * </p>
+	 * @param args
+	 */
 	private void callRunner(CommandLineRunner runner, ApplicationArguments args) {
 		try {
 			(runner).run(args.getSourceArgs());
@@ -844,15 +916,27 @@ public class SpringApplication {
 		}
 	}
 
+	/**
+	 * <p>
+	 *     处理异常，应付于run失败
+	 * </p>
+	 * @param context
+	 * @param listeners
+	 * @param analyzers
+	 * @param exception
+	 */
 	private void handleRunFailure(ConfigurableApplicationContext context,
 			SpringApplicationRunListeners listeners, FailureAnalyzers analyzers,
 			Throwable exception) {
 		try {
 			try {
+				//
 				handleExitCode(context, exception);
+				//监听器的最后一步依旧准备调用
 				listeners.finished(context, exception);
 			}
 			finally {
+				//报告错误
 				reportFailure(analyzers, exception);
 				if (context != null) {
 					context.close();
@@ -865,6 +949,11 @@ public class SpringApplication {
 		ReflectionUtils.rethrowRuntimeException(exception);
 	}
 
+	/**
+	 * 报告相关的失败信息
+	 * @param analyzers
+	 * @param failure
+	 */
 	private void reportFailure(FailureAnalyzers analyzers, Throwable failure) {
 		try {
 			if (analyzers != null && analyzers.analyzeAndReport(failure)) {

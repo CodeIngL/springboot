@@ -28,6 +28,14 @@ import org.springframework.core.annotation.Order;
  * If you need access to {@link ApplicationArguments} instead of the raw String array
  * consider using {@link ApplicationRunner}.
  *
+ * <p>
+ *     用来表示一个bean包含在SpringApplication中的时候应该运行的接口。
+ *     可以在同一个应用程序上下文中定义多个CommandLineRunner bean，并且可以使用Ordered接口或@Order批注进行排序。
+ * </p>
+ * <p>
+ *      如果您需要访问ApplicationArguments而不是原始String数组，请考虑使用ApplicationRunner。
+ * </p>
+ *
  * @author Dave Syer
  * @see ApplicationRunner
  */
@@ -35,6 +43,9 @@ public interface CommandLineRunner {
 
 	/**
 	 * Callback used to run the bean.
+	 * <p>
+	 *     用于运行该bean的回调。
+	 * </p>
 	 * @param args incoming main method arguments
 	 * @throws Exception on error
 	 */
