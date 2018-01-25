@@ -41,6 +41,16 @@ import org.springframework.core.Ordered;
  * consider setting the {@code LANG} environment variable to an explicit
  * character-encoding value (e.g. "en_GB.UTF-8").
  *
+ * <p>
+ *     如果系统文件编码与环境中设置的期望值不匹配，ApplicationListener将暂停应用程序启动。
+ *     默认情况下是没有效果的，
+ *     但是如果你设置了spring.mandatory_file_encoding（或者一些camelCase或者UPPERCASE的变体）到一个字符编码的名字（比如“UTF-8”），
+ *     那么这个初始化器会在file.encoding系统 财产不等于它。
+ * <p> 系统属性file.encoding通常由JVM设置，以响应LANG或LC_ALL环境变量。
+ * 它被用来（和其他依赖于平台的变量一起被键入这些环境变量）编码JVM参数以及文件名和路径。
+ * 在大多数情况下，您可以在命令行（使用标准JVM功能）上覆盖文件编码System属性，但也可以考虑将LANG环境变量设置为明确的字符编码值（例如“en_GB.UTF-8”）。
+ * </p>
+ *
  * @author Dave Syer
  */
 public class FileEncodingApplicationListener

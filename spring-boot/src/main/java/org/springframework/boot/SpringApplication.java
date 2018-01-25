@@ -221,6 +221,12 @@ public class SpringApplication {
 	 * Create a new {@link SpringApplication} instance. The application context will load
 	 * beans from the specified sources (see {@link SpringApplication class-level}
 	 * documentation for details. The instance can be customized before calling
+	 *
+	 * <p>
+	 *     创建一个新的SpringApplication实例。
+	 *     应用程序上下文将从指定的源中加载bean
+	 *     （请参阅类级文档以获取详细信息。在调用run（String ...）之前可以自定义实例。
+	 * </p>
 	 * {@link #run(String...)}.
 	 * @param sources the bean sources
 	 * @see #run(Object, String[])

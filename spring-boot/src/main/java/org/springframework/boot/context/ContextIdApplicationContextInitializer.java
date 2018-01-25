@@ -44,6 +44,25 @@ import org.springframework.util.StringUtils;
  * <li>PORT</li>
  * </ul>
  *
+ * <p>
+ *     ApplicationContextInitializer，它设置Spring ApplicationContext ID。 以下环境属性将被用来创建ID：
+ * </p>
+ * <ul>
+ * <li>spring.application.name</li>
+ * <li>vcap.application.name</li>
+ * <li>spring.config.name</li>
+ * </ul>
+ * <p>
+ *     如果没有设置属性，将使用ID“application”。
+ * </p>
+ *
+ * <p>此外，还会咨询以下环境属性以添加相关的端口或索引：</p>
+ *
+ *  <ul>
+ * <li>spring.application.index</li>
+ * <li>vcap.application.instance_index</li>
+ * <li>PORT</li>
+ * </ul>
  * @author Dave Syer
  */
 public class ContextIdApplicationContextInitializer implements

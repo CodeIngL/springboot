@@ -24,6 +24,10 @@ import org.springframework.util.StringUtils;
 /**
  * {@link FailureAnalysisReporter} that logs the failure analysis.
  *
+ * <p>
+ *     记录失败分析的FailureAnalysisReporter。
+ * </p>
+ *
  * @author Andy Wilkinson
  * @since 1.4.0
  */

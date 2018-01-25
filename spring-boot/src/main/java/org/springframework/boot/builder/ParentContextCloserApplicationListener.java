@@ -33,6 +33,10 @@ import org.springframework.util.ObjectUtils;
  * refresh events and grabs the current context from there, and then listens for closed
  * events and propagates it down the hierarchy.
  *
+ * <p>
+ *     如果其父项关闭，则关闭应用程序上下文的监听器。 它监听刷新事件，并从那里抓取当前的上下文，然后监听关闭的事件并将其传播到层次结构中。
+ * </p>
+ *
  * @author Dave Syer
  * @author Eric Bottard
  */

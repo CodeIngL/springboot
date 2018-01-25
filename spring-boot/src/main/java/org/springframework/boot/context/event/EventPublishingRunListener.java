@@ -37,6 +37,11 @@ import org.springframework.util.ErrorHandler;
  * Uses an internal {@link ApplicationEventMulticaster} for the events that are fired
  * before the context is actually refreshed.
  *
+ * <p>
+ *     SpringApplicationRunListener发布SpringApplicationEvents。
+ * <p>
+ *     在实际刷新上下文之前，使用内部ApplicationEventMulticaster来处理事件。
+ *
  * @author Phillip Webb
  * @author Stephane Nicoll
  */

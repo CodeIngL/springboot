@@ -31,6 +31,10 @@ import org.springframework.util.StringUtils;
  * An {@link AbstractFailureAnalyzer} that performs analysis of failures caused by a
  * {@link BeanCurrentlyInCreationException}.
  *
+ * <p>
+ *     AbstractFailureAnalyzer对由BeanCurrentlyInCreationException引起的故障进行分析。
+ * </p>
+ *
  * @author Andy Wilkinson
  */
 class BeanCurrentlyInCreationFailureAnalyzer

@@ -27,6 +27,10 @@ import org.springframework.validation.ObjectError;
  * An {@link AbstractFailureAnalyzer} that performs analysis of failures caused by a
  * {@link BindException}.
  *
+ * <p>
+ *     AbstractFailureAnalyzer对BindException引起的故障进行分析。
+ * </p>
+ *
  * @author Andy Wilkinson
  * @author Madhura Bhave
  */

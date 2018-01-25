@@ -22,6 +22,9 @@ import org.springframework.boot.diagnostics.FailureAnalysis;
 
 /**
  * An {@link AbstractFailureAnalyzer} for {@link ConnectorStartFailedException}.
+ * <p>
+ *     ConnectorStartFailedException的AbstractFailureAnalyzer。
+ * </p>
  *
  * @author Andy Wilkinson
  */

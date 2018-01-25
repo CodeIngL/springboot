@@ -38,6 +38,9 @@ import org.springframework.util.ClassUtils;
 
 /**
  * Strategy to load '.yml' (or '.yaml') files into a {@link PropertySource}.
+ * <p>
+ *     将'.yml'（或'.yaml'）文件加载到{@link PropertySource}的策略。
+ * </p>
  *
  * @author Dave Syer
  * @author Phillip Webb

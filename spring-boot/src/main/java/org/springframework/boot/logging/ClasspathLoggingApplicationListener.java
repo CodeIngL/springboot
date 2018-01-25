@@ -35,6 +35,10 @@ import org.springframework.core.ResolvableType;
  * {@link ApplicationFailedEvent failed events} by logging the classpath of the thread
  * context class loader (TCCL) at {@code DEBUG} level.
  *
+ * <p>
+ *     一个SmartApplicationListener，通过在DEBUG级别记录线程上下文类加载器（TCCL）的类路径来响应环境准备事件和失败事件。
+ * </p>
+ *
  * @author Andy Wilkinson
  */
 public final class ClasspathLoggingApplicationListener

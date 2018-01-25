@@ -45,6 +45,9 @@ import org.springframework.util.StringUtils;
 /**
  * {@link ApplicationContextInitializer} to report warnings for common misconfiguration
  * mistakes.
+ * <p>
+ *     ApplicationContextInitializer报告常见的错误配置错误的警告。
+ * </p>
  *
  * @author Phillip Webb
  * @since 1.2.0

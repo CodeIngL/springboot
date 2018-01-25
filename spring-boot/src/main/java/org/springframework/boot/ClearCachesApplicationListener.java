@@ -24,6 +24,9 @@ import org.springframework.util.ReflectionUtils;
 
 /**
  * {@link ApplicationListener} to cleanup caches once the context is loaded.
+ * <p>
+ *     ApplicationListener在上下文加载后清除缓存。
+ * </p>
  *
  * @author Phillip Webb
  */

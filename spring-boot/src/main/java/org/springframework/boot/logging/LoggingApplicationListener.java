@@ -69,6 +69,24 @@ import org.springframework.util.StringUtils;
  * </li>
  * </ul>
  *
+ * <p>
+ *     一个配置LoggingSystem的ApplicationListener。 如果环境包含logging.config属性，则将用于引导日志记录系统，否则将使用默认配置。 无论如何，如果环境包含logging.level。*条目，日志级别将被自定义。
+ * </p>
+ * <p>
+ *     当环境包含未设置为“false”的调试或跟踪属性（即，如果您使用java -jar myapp.jar [--debug启动应用程序时），将启用对Spring，Tomcat，Jetty和Hibernate的调试和跟踪日志记录 | --trace]）。 如果你想忽略这些属性，你可以设置parseArgs为false。
+ * </p>
+ * <p>
+ *     默认情况下，日志输出仅写入控制台。 如果需要日志文件，则可以使用logging.path和logging.file属性。
+ * </p>
+ * <p>
+ *     某些系统属性可能被设置为副作用，如果日志记录配置支持占位符（即log4j或logback），则这些属性可能很有用：
+ * </p>
+ * <ul>
+ * <li>{@code LOG_FILE} is set to the value of path of the log file that should be written
+ * (if any).</li>
+ * <li>{@code PID} is set to the value of the current process ID if it can be determined.
+ * </li>
+ * </ul>
  * @author Dave Syer
  * @author Phillip Webb
  * @author Andy Wilkinson

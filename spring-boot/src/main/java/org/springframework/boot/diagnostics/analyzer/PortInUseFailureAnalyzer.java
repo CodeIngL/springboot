@@ -24,6 +24,10 @@ import org.springframework.boot.diagnostics.FailureAnalysis;
  * A {@code FailureAnalyzer} that performs analysis of failures caused by a
  * {@code PortInUseException}.
  *
+ * <p>
+ *     FailureAnalyzer对由PortInUseException引起的故障进行分析。
+ * </p>
+ *
  * @author Andy Wilkinson
  */
 class PortInUseFailureAnalyzer extends AbstractFailureAnalyzer<PortInUseException> {

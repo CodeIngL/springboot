@@ -28,6 +28,10 @@ import org.springframework.core.Ordered;
  * value of the property {@code spring.output.ansi.enabled}. See {@link Enabled} for valid
  * values.
  *
+ * <p>
+ *     根据属性spring.output.ansi.enabled的值配置AnsiOutput的ApplicationListener。 有关有效值，请参阅AnsiOutput.Enabled。
+ * </p>
+ *
  * @author Raphael von der Grün
  * @since 1.2.0
  */

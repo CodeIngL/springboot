@@ -33,6 +33,16 @@ import org.springframework.core.env.Environment;
  * the @{@link org.springframework.core.annotation.Order Order} annotation is present and
  * to sort instances accordingly if so prior to invocation.
  *
+ * <p>
+ *     允许在刷新应用程序上下文之前自定义应用程序的环境。
+ * </p>
+ * <p>
+ *     EnvironmentPostProcessor实现必须在META-INF/spring.factories中注册，使用这个类的完全限定名作为键。
+ * </p>
+ * <p>
+ *     鼓励EnvironmentPostProcessor处理器检测是否已经实现了Spring的Ordered接口，或者是否存在@Order注释，并在调用之前对其进行排序。
+ * </p>
+ *
  * @author Andy Wilkinson
  * @author Stephane Nicoll
  * @since 1.3.0

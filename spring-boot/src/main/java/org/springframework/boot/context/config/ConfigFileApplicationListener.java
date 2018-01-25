@@ -95,6 +95,26 @@ import org.springframework.validation.BindException;
  * ("spring.main.web_environment=true") or the flag to switch off the banner
  * ("spring.main.show_banner=false").
  *
+ * <p>
+ *     EnvironmentPostProcessor通过从众所周知的文件位置加载属性来配置上下文环境。默认情况下，属性将从以下位置的“application.properties”和/或“application.yml”文件中加载：
+ * </p>
+ * <ul>
+ * <li>classpath:</li>
+ * <li>file:./</li>
+ * <li>classpath:config/</li>
+ * <li>file:./config/:</li>
+ * </ul>
+ * <p>
+ *     替代的搜索位置和名称可以使用setSearchLocations（String）和setSearchNames（String）来指定。
+ * </p>
+ * <p>
+ *     其他文件也将根据活动配置文件加载。 例如，如果“web”配置文件处于活动状态，则将考虑“application-web.properties”和“application-web.yml”。
+ * </p>
+ * <p>
+ *     'spring.config.name'属性可用于指定要加载的替代名称，'spring.config.location'属性可用于指定替代搜索位置或特定文件。
+ * </p>
+ * <p>配置属性也绑定到SpringApplication。 这使得可以动态地设置SpringApplication属性，如源（“spring.main.sources” - 一个CSV列表）的标志来指示一个Web环境（“spring.main.web_environment = true”）或关闭的标志 横幅（“spring.main.show_banner = false”）。</p>
+ *
  * @author Dave Syer
  * @author Phillip Webb
  * @author Stephane Nicoll

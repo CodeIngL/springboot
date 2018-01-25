@@ -19,6 +19,10 @@ package org.springframework.boot.diagnostics;
 /**
  * Reports a {@code FailureAnalysis} to the user.
  *
+ * <p>
+ *     向用户报告“FailureAnalysis”。s
+ * </p>
+ *
  * @author Andy Wilkinson
  * @since 1.4.0
  */

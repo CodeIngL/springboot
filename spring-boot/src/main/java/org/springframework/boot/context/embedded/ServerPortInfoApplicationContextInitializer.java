@@ -44,6 +44,17 @@ import org.springframework.util.StringUtils;
  * <p>
  * Properties are automatically propagated up to any parent context.
  *
+ * <p>
+ *     ApplicationContextInitializer，为EmbeddedServletContainer服务器实际监听的端口设置环境属性。
+ *     属性“local.server.port”可以通过@Value直接注入到测试中，或者通过环境获得。
+ * </p>
+ * <p>
+ *     如果EmbeddedWebApplicationContext设置了名称空间，则将用它来构造属性名称。
+ *     例如，“management”执行器上下文将具有属性名称“local.management.port”。
+ * </p>
+ * <p>
+ *     属性自动传播到任何父上下文。
+ * </p>
  * @author Dave Syer
  * @author Phillip Webb
  * @since 1.4.0

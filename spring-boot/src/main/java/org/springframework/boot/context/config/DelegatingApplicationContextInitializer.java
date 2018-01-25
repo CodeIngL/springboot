@@ -36,6 +36,10 @@ import org.springframework.util.StringUtils;
  * {@link ApplicationContextInitializer} that delegates to other initializers that are
  * specified under a {@literal context.initializer.classes} environment property.
  *
+ * <p>
+ *     ApplicationContextInitializer，委托给在context.initializer.classes环境属性下指定的其他初始化程序。
+ * </p>
+ *
  * @author Dave Syer
  * @author Phillip Webb
  */

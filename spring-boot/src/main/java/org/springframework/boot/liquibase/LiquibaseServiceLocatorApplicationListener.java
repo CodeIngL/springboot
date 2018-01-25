@@ -29,6 +29,10 @@ import org.springframework.util.ClassUtils;
  * {@link ApplicationListener} that replaces the liquibase {@link ServiceLocator} with a
  * version that works with Spring Boot executable archives.
  *
+ * <p>
+ *     ApplicationListener，用与Spring Boot可执行文件一起使用的版本替换liquibase ServiceLocator。
+ * </p>
+ *
  * @author Phillip Webb
  * @author Dave Syer
  */
