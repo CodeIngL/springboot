@@ -66,6 +66,10 @@ final class AutoConfigurationMetadataLoader {
 
 	/**
 	 * {@link AutoConfigurationMetadata} implementation backed by a properties file.
+	 *
+	 * <p>
+	 *     由properties文件支持的AutoConfigurationMetadata实现。
+	 * </p>
 	 */
 	private static class PropertiesAutoConfigurationMetadata
 			implements AutoConfigurationMetadata {

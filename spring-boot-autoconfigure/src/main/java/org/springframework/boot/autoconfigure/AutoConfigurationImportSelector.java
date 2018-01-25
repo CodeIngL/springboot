@@ -59,6 +59,10 @@ import org.springframework.util.StringUtils;
  * auto-configuration}. This class can also be subclassed if a custom variant of
  * {@link EnableAutoConfiguration @EnableAutoConfiguration}. is needed.
  *
+ * <p>
+ *     DeferredImportSelector来处理自动配置。
+ *     如果是@EnableAutoConfiguration的自定义变体，这个类也可以被子类化。 是必要的。
+ * </p>
  * @author Phillip Webb
  * @author Andy Wilkinson
  * @author Stephane Nicoll
@@ -83,24 +87,40 @@ public class AutoConfigurationImportSelector
 
 	private ResourceLoader resourceLoader;
 
+	/**
+	 * 根据导入@Configuration类的AnnotationMetadata选择并返回应该导入哪个类的名称。
+	 * @param annotationMetadata
+	 * @return
+	 */
 	@Override
 	public String[] selectImports(AnnotationMetadata annotationMetadata) {
 		if (!isEnabled(annotationMetadata)) {
 			return NO_IMPORTS;
 		}
 		try {
+			//加载自带配置元信息
 			AutoConfigurationMetadata autoConfigurationMetadata = AutoConfigurationMetadataLoader
 					.loadMetadata(this.beanClassLoader);
+			//获得注解元信息上的注解属性
 			AnnotationAttributes attributes = getAttributes(annotationMetadata);
+			//获得候选的配置项的完全类名
 			List<String> configurations = getCandidateConfigurations(annotationMetadata,
 					attributes);
+			//去除重复的名字(简单去重)
 			configurations = removeDuplicates(configurations);
+			//根据原信息配置进行排序
 			configurations = sort(configurations, autoConfigurationMetadata);
+			//获得排除项
 			Set<String> exclusions = getExclusions(annotationMetadata, attributes);
+			//检查排除项类
 			checkExcludedClasses(configurations, exclusions);
+			//删除排除项
 			configurations.removeAll(exclusions);
+			//根据信息进行过滤
 			configurations = filter(configurations, autoConfigurationMetadata);
+			//激活下自动配置导入事件
 			fireAutoConfigurationImportEvents(configurations, exclusions);
+			//返回数组
 			return configurations.toArray(new String[configurations.size()]);
 		}
 		catch (IOException ex) {

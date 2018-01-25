@@ -40,6 +40,14 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
  * definitions will override ones defined in earlier loaded files. This can be leveraged
  * to deliberately override certain bean definitions via an extra Configuration class.
  *
+ * <p>
+ *   EmbeddedWebApplicationContext接受注释类作为输入 - 特别是@Configuration - 注解类，还包括普通的@Component类和使用javax.inject注解的符合JSR-330的类。
+ *  允许逐个注册类（指定类名作为配置位置）以及类路径扫描（指定基本包作为配置位置）。
+ *
+ * <p>
+ *     注意：如果有多个@Configuration类，稍后的@Bean定义将覆盖在先前加载的文件中定义的定义。 这可以用来通过一个额外的配置类故意重写某些bean定义。
+ * </p>
+ *
  * @author Phillip Webb
  * @see #register(Class...)
  * @see #scan(String...)

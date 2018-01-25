@@ -34,6 +34,15 @@ import org.springframework.context.annotation.Configuration;
  * most idiomatic Spring Boot applications will inherit it from
  * {@code @SpringBootApplication}.
  *
+ * <p>
+ *     表示一个类提供Spring Boot应用程序@Configuration。
+ *     可以用来替代Spring的标准@Configuration注释，以便可以自动找到配置（例如在测试中）。
+ * </p>
+ *
+ * <p>
+ *     应用程序应该只包含一个@SpringBootConfiguration，大多数惯用的Spring Boot应用程序将从@SpringBootApplication继承它。
+ * </p>
+ *
  * @author Phillip Webb
  * @since 1.4.0
  */

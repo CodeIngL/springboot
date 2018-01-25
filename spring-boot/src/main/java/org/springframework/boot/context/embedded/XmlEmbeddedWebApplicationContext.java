@@ -30,6 +30,11 @@ import org.springframework.web.context.support.XmlWebApplicationContext;
  * defined in earlier loaded files. This can be leveraged to deliberately override certain
  * bean definitions via an extra XML file.
  *
+ *
+ * <p>EmbeddedWebApplicationContext从XML文档中获取配置，由XmlBeanDefinitionReader理解。
+ * <p>注意：如果有多个配置位置，稍后的bean定义将覆盖在先前加载的文件中定义的定义。
+ * 这可以用来通过一个额外的XML文件故意重写某些bean定义。
+ *
  * @author Phillip Webb
  * @see #setNamespace
  * @see #setConfigLocations

@@ -64,6 +64,22 @@ import org.springframework.core.io.support.SpringFactoriesLoader;
  * often using {@link ConditionalOnClass @ConditionalOnClass} and
  * {@link ConditionalOnMissingBean @ConditionalOnMissingBean} annotations).
  *
+ * <p>
+ *     启用S​​pring应用程序上下文的自动配置，试图猜测和配置你可能需要的bean。自动配置类通常基于你的类路径和你定义的bean来应用。
+ *     例如，如果你的类路径上有tomcat-embedded.jar，你可能需要一个TomcatEmbeddedServletContainerFactory（除非你定义了你自己的EmbeddedServletContainerFactory bean）。
+ *     当使用SpringBootApplication时，上下文的自动配置将自动启用，因此添加此注释不会产生额外的影响。
+ * <p>
+ *     自动配置尝试尽可能地智能化，并且随着您定义更多自己的配置而退出。
+ *     您始终可以手动排除（）任何您不想应用的配置（如果您无权访问，请使用excludeName（））。
+ *     你也可以通过spring.autoconfigure.exclude属性来排除它们。
+ *     在用户定义的bean已经注册之后，总是应用自动配置。
+ *     通常通过@SpringBootApplication注解@EnableAutoConfiguration的类的包具有特定的意义，通常用作“默认”。
+ *     例如，它将在扫描@Entity类时使用。
+ *     通常建议您在根包中放置@EnableAutoConfiguration（如果您不使用@SpringBootApplication），以便可以搜索所有子包和类。
+ *     自动配置类是常规的Spring配置bean。它们使用SpringFactoriesLoader机制（针对这个类）。
+ *     通常，自动配置bean是@条件bean（通常使用@ConditionalOnClass和@ConditionalOnMissingBean注释）。
+ * </p>
+ *
  * @author Phillip Webb
  * @author Stephane Nicoll
  * @see ConditionalOnBean
