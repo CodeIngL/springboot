@@ -54,6 +54,10 @@ import org.springframework.context.annotation.Configuration;
  * {@link EnableAutoConfiguration Auto-configuration} for {@link CacheStatisticsProvider}
  * beans.
  *
+ * <p>
+ *     自动配置CacheStatisticsProvider bean。(缓存统计提供)
+ * </p>
+ *
  * @author Stephane Nicoll
  * @author Phillip Webb
  * @author Eddú Meléndez
@@ -64,6 +68,9 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnBean(CacheManager.class)
 public class CacheStatisticsAutoConfiguration {
 
+	/**
+	 * 使用JCache
+	 */
 	@Configuration
 	@ConditionalOnClass({ Caching.class, JCacheCache.class })
 	static class JCacheCacheStatisticsProviderConfiguration {
@@ -75,6 +82,9 @@ public class CacheStatisticsAutoConfiguration {
 
 	}
 
+	/**
+	 * 使用Ehcache
+	 */
 	@Configuration
 	@ConditionalOnClass({ EhCacheCache.class, Ehcache.class, StatisticsGateway.class })
 	static class EhCacheCacheStatisticsProviderConfiguration {
@@ -97,6 +107,9 @@ public class CacheStatisticsAutoConfiguration {
 
 	}
 
+	/**
+	 * 使用SpringCache
+	 */
 	@Configuration
 	@ConditionalOnClass({ SpringCache.class })
 	static class InfinispanCacheStatisticsProviderConfiguration {
@@ -108,6 +121,9 @@ public class CacheStatisticsAutoConfiguration {
 
 	}
 
+	/**
+	 * 使用Caffeine
+	 */
 	@Configuration
 	@ConditionalOnClass({ Caffeine.class, CaffeineCacheManager.class })
 	static class CaffeineCacheStatisticsProviderConfiguration {
@@ -119,6 +135,9 @@ public class CacheStatisticsAutoConfiguration {
 
 	}
 
+	/**
+	 * 使用GuavaCache
+	 */
 	@Configuration
 	@ConditionalOnClass({ com.google.common.cache.Cache.class, GuavaCache.class })
 	@Deprecated
@@ -131,6 +150,9 @@ public class CacheStatisticsAutoConfiguration {
 
 	}
 
+	/**
+	 * 使用ConcurrentMapCache
+	 */
 	@Configuration
 	@ConditionalOnClass(ConcurrentMapCache.class)
 	static class ConcurrentMapCacheStatisticsConfiguration {
@@ -142,6 +164,9 @@ public class CacheStatisticsAutoConfiguration {
 
 	}
 
+	/**
+	 * 使用NoOpCacheManager
+	 */
 	@Configuration
 	@ConditionalOnClass(NoOpCacheManager.class)
 	static class NoOpCacheStatisticsConfiguration {

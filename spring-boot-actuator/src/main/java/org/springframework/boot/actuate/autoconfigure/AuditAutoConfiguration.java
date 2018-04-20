@@ -35,6 +35,10 @@ import org.springframework.context.annotation.Configuration;
 /**
  * {@link EnableAutoConfiguration Auto-configuration} for {@link AuditEvent}s.
  *
+ * <p>
+ *     自动配置AuditEvents。
+ * </p>
+ *
  * @author Dave Syer
  * @author Vedran Pavic
  */

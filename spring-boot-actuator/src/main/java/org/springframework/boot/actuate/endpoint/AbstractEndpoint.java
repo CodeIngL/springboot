@@ -25,6 +25,10 @@ import org.springframework.util.Assert;
 /**
  * Abstract base for {@link Endpoint} implementations.
  *
+ * <p>
+ *     端点实现的抽象基础。
+ * </p>
+ *
  * @param <T> the endpoint data type
  * @author Phillip Webb
  * @author Christian Dupuis

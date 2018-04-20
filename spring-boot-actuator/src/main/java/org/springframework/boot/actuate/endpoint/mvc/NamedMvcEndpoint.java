@@ -22,6 +22,10 @@ package org.springframework.boot.actuate.endpoint.mvc;
  * Names provide a consistent way to reference an endpoint, for example they may be used
  * as the {@literal 'rel'} attribute in a HAL response.
  *
+ * <p>
+ *     还包含一个逻辑名称的MvcEndpoint。 与端点路径不同，用户不可能更改端点名称。 名称提供了引用端点的一致方式，例如，它们可以用作HAL响应中的“rel”属性。
+ * </p>
+ *
  * @author Madhura Bhave
  * @since 1.5.0
  */

@@ -191,12 +191,16 @@ public class SpringApplication {
 
 	private boolean addCommandLineProperties = true;
 
+	//图
 	private Banner banner;
 
+	//资源加载器
 	private ResourceLoader resourceLoader;
 
+	//名字生成器
 	private BeanNameGenerator beanNameGenerator;
 
+	//环境
 	private ConfigurableEnvironment environment;
 
 	private Class<? extends ConfigurableApplicationContext> applicationContextClass;
@@ -318,11 +322,15 @@ public class SpringApplication {
 		StopWatch stopWatch = new StopWatch();
 		stopWatch.start();
 
+		//上下文
 		ConfigurableApplicationContext context = null;
+		//失败分析器集
 		FailureAnalyzers analyzers = null;
 		//配置校验headless模式
 		configureHeadlessProperty();
-		//通过参数构建获得运行时的监听器
+
+		//通过参数构建获得运行时的监听器（spring.factory找到SpringApplicationRunListener对应具体类，并进行实例化，arg是具体类的）
+		//构造函数XXXXXX（SpringApplication，String[]）
 		SpringApplicationRunListeners listeners = getRunListeners(args);
 		//监听集合启动-->SpringApplicationRunListener生命周期第一步
 		listeners.starting();
@@ -368,6 +376,12 @@ public class SpringApplication {
 		}
 	}
 
+	/**
+	 * 创建环境
+	 * @param listeners
+	 * @param applicationArguments
+	 * @return
+	 */
 	private ConfigurableEnvironment prepareEnvironment(
 			SpringApplicationRunListeners listeners,
 			ApplicationArguments applicationArguments) {
@@ -444,6 +458,22 @@ public class SpringApplication {
 
 	/**
 	 * 配置headless模式
+	 * <h2>什么是 java.awt.headless</h2>
+	 * <p>
+	 *     Headless模式是系统的一种配置模式。在该模式下，系统缺少了显示设备、键盘或鼠标
+	 * </p>
+	 *
+	 * <h2>何时使用和headless mode</h2>
+	 * <p>
+	 *     Headless模式虽然不是我们愿意见到的，但事实上我们却常常需要在该模式下工作，尤其是服务器端程序开发者。
+	 *     因为服务器（如提供Web服务的主机）往往可能缺少前述设备，但又需要使用他们提供的功能，
+	 *     生成相应的数据，以提供给客户端（如浏览器所在的配有相关的显示设备、键盘和鼠标的主机）。
+	 * </p>
+	 * <h2>如何使用和Headless mode</h2>
+	 * <p>
+	 *     一般是在程序开始激活headless模式，
+	 *     告诉程序，现在你要工作在Headless mode下，就不要指望硬件帮忙了，你得自力更生，依靠系统的计算能力模拟出这些特性来
+	 * </p>
 	 */
 	private void configureHeadlessProperty() {
 		System.setProperty(SYSTEM_PROPERTY_JAVA_AWT_HEADLESS, System.getProperty(
@@ -487,7 +517,7 @@ public class SpringApplication {
 			Class<?>[] parameterTypes, Object... args) {
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		// Use names and ensure unique to protect against duplicates
-		// 获得名字防止重复
+		// 获得名字防止重复,获得完全限定类名
 		Set<String> names = new LinkedHashSet<String>(
 				SpringFactoriesLoader.loadFactoryNames(type, classLoader));
 		//获得匹配的工厂类
@@ -504,7 +534,7 @@ public class SpringApplication {
 	 * @param parameterTypes 参数类型
 	 * @param classLoader 类加载器
 	 * @param args 实际参数
-	 * @param names
+	 * @param names 对应类名
 	 * @param <T>
 	 * @return
 	 */
@@ -517,8 +547,10 @@ public class SpringApplication {
 			try {
 				Class<?> instanceClass = ClassUtils.forName(name, classLoader);
 				Assert.isAssignable(type, instanceClass);
+				//获得相应的构造函数
 				Constructor<?> constructor = instanceClass
 						.getDeclaredConstructor(parameterTypes);
+				//使用参数进行实例化
 				T instance = (T) BeanUtils.instantiateClass(constructor, args);
 				instances.add(instance);
 			}

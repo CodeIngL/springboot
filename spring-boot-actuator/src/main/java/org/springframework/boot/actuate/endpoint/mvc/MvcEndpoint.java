@@ -30,6 +30,12 @@ import org.springframework.http.ResponseEntity;
  * to a double mapping of paths, once by the regular MVC handler mappings and once by the
  * {@link EndpointHandlerMapping}).
  *
+ * <p>
+ *     端点之上的MVC层策略。
+ *     允许实现使用@RequestMapping和完整的Spring MVC机制，
+ *     但不应该在类型级别使用@Controller或@RequestMapping（因为这将导致路径的双重映射，一旦由常规的MVC处理程序映射，一次由EndpointHandlerMapping）
+ * </p>
+ *
  * @author Dave Syer
  * @see NamedMvcEndpoint
  */

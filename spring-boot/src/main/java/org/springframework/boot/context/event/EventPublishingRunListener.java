@@ -42,6 +42,10 @@ import org.springframework.util.ErrorHandler;
  * <p>
  *     在实际刷新上下文之前，使用内部ApplicationEventMulticaster来处理事件。
  *
+ * <p>
+ *     目前这个是唯一的实现，这将从SpringApplication application中Application进行转移到该类上。
+ * </p>
+ *
  * @author Phillip Webb
  * @author Stephane Nicoll
  */

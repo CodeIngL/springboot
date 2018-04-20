@@ -34,6 +34,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * {@code application/json} or {@code application/vnd.spring-boot.actuator.v1+json}
  * responses.
  *
+ * <p>
+ *     针对使用application / json或application / vnd.spring-boot.actuator.v1 + json请求并生成application / json或application / vnd.spring-boot.actuator.v1 + json响应的POST请求的专用的RequestMapping。
+ * </p>
+ *
  * @author Andy Wilkinson
  */
 @Target(ElementType.METHOD)

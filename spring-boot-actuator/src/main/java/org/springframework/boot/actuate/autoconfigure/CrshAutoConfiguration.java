@@ -112,6 +112,22 @@ import org.springframework.util.StringUtils;
  * . To add different locations or override the default use
  * {@code management.shell.command-path-patterns} in your application configuration.
  *
+ * <p>
+ *     用于将可扩展外壳嵌入到启用Spring Boot的应用程序中的自动配置。缺省情况下，SSH守护进程在端口2000上启动。如果在类路径上有CRaSH Telnet插件，则将在端口5000上启动Telnet守护进程。
+ * </p>
+ * <p>
+ *     默认的shell身份验证方法使用用户名和密码组合。如果没有提供配置，则默认用户名是'user'，密码将在应用程序启动期间打印到控制台。这些默认值可以通过使用management.shell.auth.simple.username和management.shell.auth.simple.password来覆盖。
+ * </p>
+ * <p>
+ *     如果检测到Spring Security AuthenticationManager，则此配置将创建一个CRaSHPlugin，将shell身份验证请求转发给Spring Security。如果management.shell.auth.type设置为spring，或者没有提供明确的management.shell.auth并且AuthenticationManager可用，则此身份验证方法将启用。在后一种情况下，shell访问将被限制为具有与ManagementServerProperties中配置的角色相匹配的角色的用户。所需的角色可以被management.shell.auth.spring.roles覆盖。
+ * </p>
+ * <p>
+ *     要将定制添加到shell，只需在应用程序上下文中定义CRaSHPlugin类型的bean即可。这些bean将在启动过程中被自动检测到并注册到底层的shell基础结构中。要配置插件和CRaSH基础架构，请将ShellProperties.CrshShellProperties类型的Bean添加到应用程序上下文中。
+ * </p>
+ * <p>
+ *     附加的shell命令可以使用crashub.org上的指南和文档来实现。默认情况下，Boot将使用以下类路径扫描模式classpath *：/ commands / **来搜索命令。要添加不同的位置或覆盖应用程序配置中的默认值management.shell.command-path-patterns。
+ * </p>
+ *
  * @author Christian Dupuis
  * @author Matt Benson
  * @see ShellProperties

@@ -21,6 +21,12 @@ package org.springframework.boot.actuate.endpoint;
  * exposed via Spring MVC but could also be exposed using some other technique. Consider
  * extending {@link AbstractEndpoint} if you are developing your own endpoint.
  *
+ * <p>
+ *     可用于向操作公开有用信息的端点。
+ *     通常通过Spring MVC暴露，但也可以使用其他技术暴露。
+ *     如果您正在开发自己的端点，请考虑扩展AbstractEndpoint。
+ * </p>
+ *
  * @param <T> the endpoint data type
  * @author Phillip Webb
  * @author Dave Syer
@@ -32,12 +38,19 @@ public interface Endpoint<T> {
 	/**
 	 * The logical ID of the endpoint. Must only contain simple letters, numbers and '_'
 	 * characters (i.e. a {@literal "\w"} regex).
+	 *
+	 * <p>
+	 *     端点的逻辑ID。 只能包含简单的字母，数字和“_”字符（即“\ w”正则表达式）。
+	 * </p>
 	 * @return the endpoint ID
 	 */
 	String getId();
 
 	/**
 	 * Return if the endpoint is enabled.
+	 * <p>
+	 *     返回端点是否启用。
+	 * </p>
 	 * @return if the endpoint is enabled
 	 */
 	boolean isEnabled();
@@ -45,12 +58,18 @@ public interface Endpoint<T> {
 	/**
 	 * Return if the endpoint is sensitive, i.e. may return data that the average user
 	 * should not see. Mappings can use this as a security hint.
+	 * <p>
+	 *     如果端点是敏感的，则返回，即可以返回普通用户不应该看到的数据。 映射可以使用这个作为安全提示。
+	 * </p>
 	 * @return if the endpoint is sensitive
 	 */
 	boolean isSensitive();
 
 	/**
 	 * Called to invoke the endpoint.
+	 * <p>
+	 *     调用来调用端点。
+	 * </p>
 	 * @return the results of the invocation
 	 */
 	T invoke();

@@ -19,6 +19,10 @@ package org.springframework.boot.actuate.health;
 /**
  * Strategy interface used to provide an indication of application health.
  *
+ * <p>
+ *     用于提供应用程序运行状况指示的策略接口。
+ * </p>
+ *
  * @author Dave Syer
  * @see ApplicationHealthIndicator
  */

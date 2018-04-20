@@ -25,6 +25,12 @@ import org.springframework.jmx.export.annotation.ManagedResource;
  * the {@link ManagedResource @ManagedResource} annotation. Implementations may be backed
  * by an actual {@link Endpoint} or may be specifically designed for JMX only.
  *
+ * <p>
+ *     端点之上的JMX层策略。
+ *     允许实现使用@ManagedAttribute和完整的Spring JMX机制，
+ *     但不应该使用@ManagedResource注解。 实现可以由实际的端点支持，也可以专门为JMX设计。
+ * </p>
+ *
  * @author Phillip Webb
  * @since 1.5.0
  * @see EndpointMBean
