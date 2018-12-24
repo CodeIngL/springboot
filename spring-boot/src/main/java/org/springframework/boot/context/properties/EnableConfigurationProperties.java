@@ -31,6 +31,11 @@ import org.springframework.context.annotation.Import;
  * example using {@link Bean @Bean} methods) or, for convenience, can be specified
  * directly on this annotation.
  *
+ * <p>
+ *     启用对ConfigurationProperties带注解Bean的支持。
+ *     ConfigurationProperties bean可以以标准方式注册（例如使用@Bean方法），或者为了方便起见，可以直接在此注解中指定。
+ * </p>
+ *
  * @author Dave Syer
  */
 @Target(ElementType.TYPE)

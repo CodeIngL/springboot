@@ -31,6 +31,18 @@ import java.util.Map;
  * either the {@link OrderedHealthAggregator} needs to be properly configured or users
  * need to register a custom {@link HealthAggregator} as bean.
  *
+ * <p>
+ *     CompositeHealthIndicator用于将Health实例聚合为最终实例的策略接口。
+ * </p>
+ * <p>
+ *     这对于将通过Health.getStatus()表示的子系统状态组合为整个系统的一个状态特别有用。
+ *     默认实现OrderedHealthAggregator根据优先级列表对Status实例进行排序。
+ * </p>
+ * <p>
+ *     可以向系统添加更复杂的状态类型。
+ *     在这种情况下，需要正确配置OrderedHealthAggregator，或者用户需要将自定义HealthAggregator注册为bean
+ * </p>
+ *
  * @author Christian Dupuis
  * @since 1.1.0
  */

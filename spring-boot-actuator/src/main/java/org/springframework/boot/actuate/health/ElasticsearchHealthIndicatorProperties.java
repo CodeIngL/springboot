@@ -24,6 +24,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 /**
  * External configuration properties for {@link ElasticsearchHealthIndicator}.
  *
+ * <p>
+ *     ElasticsearchHealthIndicator的外部配置属性。
+ * </p>
+ *
  * @author Binwei Yang
  * @author Andy Wilkinson
  * @since 1.3.0

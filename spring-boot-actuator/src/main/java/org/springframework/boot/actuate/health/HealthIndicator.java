@@ -30,6 +30,11 @@ public interface HealthIndicator {
 
 	/**
 	 * Return an indication of health.
+	 *
+	 * <p>
+	 *     返回健康状况。
+	 * </p>
+	 *
 	 * @return the health for
 	 */
 	Health health();

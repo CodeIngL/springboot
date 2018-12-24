@@ -25,6 +25,10 @@ import org.springframework.util.Assert;
  * Simple implementation of a {@link HealthIndicator} returning status information for
  * Mongo data stores.
  *
+ * <p>
+ *     简单实现HealthIndicator返回Mongo数据存储的状态信息
+ * </p>
+ *
  * @author Christian Dupuis
  * @since 1.1.0
  */

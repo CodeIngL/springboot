@@ -96,6 +96,7 @@ class BeanDefinitionLoader {
 		}
 		this.scanner = new ClassPathBeanDefinitionScanner(registry);
 		this.scanner.addExcludeFilter(new ClassExcludeFilter(sources));
+		this.scanner.addExcludeFilter(new ClassExcludeFilter(sources));
 	}
 
 	/**
@@ -157,6 +158,11 @@ class BeanDefinitionLoader {
 		throw new IllegalArgumentException("Invalid source type " + source.getClass());
 	}
 
+	/**
+	 * 配置是通过class的形式加载，
+	 * @param source
+	 * @return
+	 */
 	private int load(Class<?> source) {
 		if (isGroovyPresent()) {
 			// Any GroovyLoaders added in beans{} DSL can contribute beans here
@@ -312,11 +318,13 @@ class BeanDefinitionLoader {
 	private boolean isComponent(Class<?> type) {
 		// This has to be a bit of a guess. The only way to be sure that this type is
 		// eligible is to make a bean definition out of it and try to instantiate it.
+		//这必须是一个猜测。 确保这种类型符合条件的唯一方法是从中创建一个bean定义并尝试实例化它。
 		if (AnnotationUtils.findAnnotation(type, Component.class) != null) {
 			return true;
 		}
 		// Nested anonymous classes are not eligible for registration, nor are groovy
 		// closures
+		// 嵌套的匿名类不符合注册条件，也不适用于常规关闭
 		if (type.getName().matches(".*\\$_.*closure.*") || type.isAnonymousClass()
 				|| type.getConstructors() == null || type.getConstructors().length == 0) {
 			return false;

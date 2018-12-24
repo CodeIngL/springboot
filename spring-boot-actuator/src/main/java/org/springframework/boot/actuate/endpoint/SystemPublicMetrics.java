@@ -32,6 +32,10 @@ import org.springframework.util.StringUtils;
 /**
  * A {@link PublicMetrics} implementation that provides various system-related metrics.
  *
+ * <p>
+ *     PublicMetrics实现，提供各种与系统相关的指标。
+ * </p>
+ *
  * @author Dave Syer
  * @author Christian Dupuis
  * @author Stephane Nicoll

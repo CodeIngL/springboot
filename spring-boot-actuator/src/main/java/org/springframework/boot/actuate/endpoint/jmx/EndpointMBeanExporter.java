@@ -59,6 +59,10 @@ import org.springframework.util.ObjectUtils;
  * {@link MBeanServer} using the {@link MBeanExporter} located from the application
  * context.
  *
+ * <p>
+ *     SmartLifecycle bean使用位于应用程序上下文中的MBeanExporter向MBeanServer注册所有已知端点。
+ * </p>
+ *
  * @author Christian Dupuis
  * @author Andy Wilkinson
  * @author Vedran Pavic

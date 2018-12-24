@@ -24,6 +24,9 @@ import org.elasticsearch.client.Requests;
 
 /**
  * {@link HealthIndicator} for an Elasticsearch cluster.
+ * <p>
+ *     Elasticsearch集群的HealthIndicator。
+ * </p>
  *
  * @author Binwei Yang
  * @author Andy Wilkinson

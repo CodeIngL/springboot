@@ -34,6 +34,8 @@ import org.springframework.util.Assert;
 /**
  * {@link Endpoint} to expose flyway info.
  *
+ * <p>暴露Flyway信息的Endpoint</p>
+ *
  * @author Eddú Meléndez
  * @author Phillip Webb
  * @author Andy Wilkinson

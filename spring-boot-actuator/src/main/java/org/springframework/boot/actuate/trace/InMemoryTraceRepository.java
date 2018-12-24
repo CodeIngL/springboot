@@ -25,6 +25,9 @@ import java.util.Map;
 
 /**
  * In-memory implementation of {@link TraceRepository}.
+ * <P>
+ *     TraceRepository的内存实现
+ * </P>
  *
  * @author Dave Syer
  * @author Olivier Bourgain

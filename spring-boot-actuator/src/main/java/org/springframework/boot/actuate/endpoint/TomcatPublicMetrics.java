@@ -37,6 +37,10 @@ import org.springframework.context.ApplicationContextAware;
 /**
  * A {@link PublicMetrics} implementation that provides Tomcat statistics.
  *
+ * <p>
+ *     提供Tomcat统计信息的PublicMetrics实现。
+ * </p>
+ *
  * @author Johannes Edmeier
  * @author Phillip Webb
  * @since 1.2.0

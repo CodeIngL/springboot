@@ -28,6 +28,10 @@ import org.springframework.util.Assert;
 /**
  * {@link Endpoint} to expose application health.
  *
+ * <p>
+ *     公开应用程序运行状况的端点。
+ * </p>
+ *
  * @author Dave Syer
  * @author Christian Dupuis
  * @author Andy Wilkinson
@@ -44,6 +48,9 @@ public class HealthEndpoint extends AbstractEndpoint<Health> {
 
 	/**
 	 * Create a new {@link HealthEndpoint} instance.
+	 *
+	 * 创建一个HealthEndpoint实例
+	 *
 	 * @param healthAggregator the health aggregator
 	 * @param healthIndicators the health indicators
 	 */

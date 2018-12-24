@@ -26,6 +26,10 @@ import io.searchbox.indices.Stats;
 /**
  * {@link HealthIndicator} for Elasticsearch using a {@link JestClient}.
  *
+ * <p>
+ *     使用JestClient的Elasticsearch的HealthIndicator。
+ * </p>
+ *
  * @author Stephane Nicoll
  * @since 1.4.0
  */

@@ -22,6 +22,8 @@ import java.util.Map;
 /**
  * A repository for {@link Trace}s.
  *
+ * Trace的仓库
+ *
  * @author Dave Syer
  */
 public interface TraceRepository {

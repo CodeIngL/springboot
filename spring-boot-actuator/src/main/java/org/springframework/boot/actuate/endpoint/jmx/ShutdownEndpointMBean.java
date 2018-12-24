@@ -25,6 +25,10 @@ import org.springframework.jmx.export.annotation.ManagedOperation;
 /**
  * Special endpoint wrapper for {@link ShutdownEndpoint}.
  *
+ * <p>
+ *     ShutdownEndpoint的特殊endpoint包装器。
+ * </p>
+ *
  * @author Christian Dupuis
  * @author Andy Wilkinson
  */

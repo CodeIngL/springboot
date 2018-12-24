@@ -24,6 +24,9 @@ import org.springframework.util.Assert;
 /**
  * External configuration properties for {@link DiskSpaceHealthIndicator}.
  *
+ * <p>
+ *     ElasticsearchHealthIndicator的外部配置属性。
+ * </p>
  * @author Andy Wilkinson
  * @since 1.2.0
  */

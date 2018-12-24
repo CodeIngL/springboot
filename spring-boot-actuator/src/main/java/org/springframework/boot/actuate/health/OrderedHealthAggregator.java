@@ -31,6 +31,11 @@ import org.springframework.util.Assert;
  * If a different order is required or a new {@link Status} type will be used, the order
  * can be set by calling {@link #setStatusOrder(List)}.
  *
+ * <p>
+ *     默认HealthAggregator实现，它聚合Health实例并基于简单的有序列表确定最终系统状态。
+ *     如果需要不同的顺序或将使用新的Status类型，则可以通过调用setStatusOrder(List)来设置顺序。
+ * </p>
+ *
  * @author Christian Dupuis
  * @since 1.1.0
  */

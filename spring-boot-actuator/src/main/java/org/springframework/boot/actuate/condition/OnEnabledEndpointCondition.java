@@ -27,6 +27,9 @@ import org.springframework.core.type.AnnotatedTypeMetadata;
 
 /**
  * {@link Condition} that checks whether or not an endpoint is enabled.
+ * <p>
+ *     检查端点是否已启用的条件。
+ * </p>
  *
  * @author Andy Wilkinson
  */
@@ -37,16 +40,31 @@ class OnEnabledEndpointCondition extends SpringBootCondition {
 			AnnotatedTypeMetadata metadata) {
 		AnnotationAttributes annotationAttributes = AnnotationAttributes.fromMap(metadata
 				.getAnnotationAttributes(ConditionalOnEnabledEndpoint.class.getName()));
+		//获得value
 		String endpointName = annotationAttributes.getString("value");
+		//获得enabledByDefault
 		boolean enabledByDefault = annotationAttributes.getBoolean("enabledByDefault");
+		/**
+		 * 决定哪个ConditionOutcome
+		 */
 		ConditionOutcome outcome = determineEndpointOutcome(endpointName,
 				enabledByDefault, context);
 		if (outcome != null) {
 			return outcome;
 		}
+		/**
+		 * 决定所有的
+		 */
 		return determineAllEndpointsOutcome(context);
 	}
 
+	/**
+	 *
+	 * @param endpointName
+	 * @param enabledByDefault
+	 * @param context
+	 * @return
+	 */
 	private ConditionOutcome determineEndpointOutcome(String endpointName,
 			boolean enabledByDefault, ConditionContext context) {
 		RelaxedPropertyResolver resolver = new RelaxedPropertyResolver(
@@ -63,6 +81,11 @@ class OnEnabledEndpointCondition extends SpringBootCondition {
 		return null;
 	}
 
+	/**
+	 *
+	 * @param context
+	 * @return
+	 */
 	private ConditionOutcome determineAllEndpointsOutcome(ConditionContext context) {
 		RelaxedPropertyResolver resolver = new RelaxedPropertyResolver(
 				context.getEnvironment(), "endpoints.");

@@ -31,6 +31,16 @@ import org.springframework.util.ObjectUtils;
  * <p>
  * Custom states can also be created and used throughout the Spring Boot Health subsystem.
  *
+ * <p>
+ *     用于表示组件或子系统状态的值对象。
+ * </p>
+ * <p>
+ *      状态为常用状态（如UP，DOWN或OUT_OF_SERVICE）提供方便的常量。
+ * </p>
+ * <p>
+ *      还可以在整个Spring Boot Health子系统中创建和使用自定义状态。
+ * </p>
+ *
  * @author Christian Dupuis
  * @since 1.1.0
  */

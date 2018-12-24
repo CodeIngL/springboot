@@ -29,6 +29,10 @@ import org.springframework.util.Assert;
  * Simple implementation of a {@link HealthIndicator} returning status information for
  * Redis data stores.
  *
+ * <p>
+ *     简单实现HealthIndicator返回Redis数据存储的状态信息。
+ * </p>
+ *
  * @author Christian Dupuis
  * @author Richard Santana
  * @since 1.1.0

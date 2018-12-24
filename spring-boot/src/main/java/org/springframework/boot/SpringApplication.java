@@ -78,6 +78,9 @@ import org.springframework.web.context.support.StandardServletEnvironment;
  * Classes that can be used to bootstrap and launch a Spring application from a Java main
  * method. By default class will perform the following steps to bootstrap your
  * application:
+ * <p>
+ *     可用于从Java主方法引导和启动Spring应用程序的类。 默认情况下，类将执行以下步骤来引导您的应用程序：
+ * </p>
  *
  * <ul>
  * <li>Create an appropriate {@link ApplicationContext} instance (depending on your
@@ -88,8 +91,19 @@ import org.springframework.web.context.support.StandardServletEnvironment;
  * <li>Trigger any {@link CommandLineRunner} beans</li>
  * </ul>
  *
+ * <ul>
+ *     <li>创建一个适当的ApplicationContext实例（取决于你的classpath）</li>
+ *     <li>注册CommandLinePropertySource以将命令行参数作为Spring属性公开</li>
+ *     <li>刷新应用程序上下文，加载所有单例bean</li>
+ *     <li>触发任何CommandLineRunner bean</li>
+ * </ul>
+ *
  * In most circumstances the static {@link #run(Object, String[])} method can be called
  * directly from your {@literal main} method to bootstrap your application:
+ *
+ * <p>
+ *     在大多数情况下，可以通过main方法直接调用静态run(Object, String[])方法来引导应用程序：
+ * </p>
  *
  * <pre class="code">
  * &#064;Configuration
@@ -326,7 +340,7 @@ public class SpringApplication {
 		ConfigurableApplicationContext context = null;
 		//失败分析器集
 		FailureAnalyzers analyzers = null;
-		//配置校验headless模式
+		//配置校验headless模式,无图形界面，不需要关心
 		configureHeadlessProperty();
 
 		//通过参数构建获得运行时的监听器（spring.factory找到SpringApplicationRunListener对应具体类，并进行实例化，arg是具体类的）

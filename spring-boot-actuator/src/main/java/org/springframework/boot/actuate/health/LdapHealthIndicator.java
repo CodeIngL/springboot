@@ -26,6 +26,10 @@ import org.springframework.util.Assert;
 /**
  * {@link HealthIndicator} for configured LDAP server(s).
  *
+ * <p>
+ *     配置的LDAP服务器的HealthIndicator
+ * </p>
+ *
  * @author Eddú Meléndez
  * @author Stephane Nicoll
  * @version 1.5.0

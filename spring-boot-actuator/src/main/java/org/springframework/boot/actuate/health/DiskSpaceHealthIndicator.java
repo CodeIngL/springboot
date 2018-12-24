@@ -25,6 +25,10 @@ import org.apache.commons.logging.LogFactory;
  * A {@link HealthIndicator} that checks available disk space and reports a status of
  * {@link Status#DOWN} when it drops below a configurable threshold.
  *
+ * <p>
+ *     HealthIndicator，用于检查可用磁盘空间，并在Status.DOWN低于可配置阈值时报告Status.DOWN状态。
+ * </p>
+ *
  * @author Mattias Severson
  * @author Andy Wilkinson
  * @since 1.2.0

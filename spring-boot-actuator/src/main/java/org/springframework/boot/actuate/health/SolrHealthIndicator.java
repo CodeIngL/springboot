@@ -24,6 +24,10 @@ import org.apache.solr.common.params.CoreAdminParams;
 /**
  * {@link HealthIndicator} for Apache Solr.
  *
+ * <p>
+ *     Apache Solr的HealthIndicator。
+ * </p>
+ *
  * @author Andy Wilkinson
  * @author Stephane Nicoll
  * @since 1.1.0

@@ -32,6 +32,11 @@ import org.springframework.util.StringUtils;
  * Base of all {@link Condition} implementations used with Spring Boot. Provides sensible
  * logging to help the user diagnose what classes are loaded.
  *
+ * <p>
+ *     Spring Boot使用的所有Condition实现的基础。
+ *     提供合理的日志记录，以帮助用户诊断加载的类。
+ * </p>
+ *
  * @author Phillip Webb
  * @author Greg Turnquist
  */
@@ -39,12 +44,19 @@ public abstract class SpringBootCondition implements Condition {
 
 	private final Log logger = LogFactory.getLog(getClass());
 
+	/**
+	 * 在处理各种Condition的时候进行匹配
+	 * @param context 条件使用的上下文信息。
+	 * @param metadata 元信息
+	 * @return
+	 */
 	@Override
 	public final boolean matches(ConditionContext context,
 			AnnotatedTypeMetadata metadata) {
 		String classOrMethodName = getClassOrMethodName(metadata);
 		try {
 			ConditionOutcome outcome = getMatchOutcome(context, metadata);
+			//打印消息
 			logOutcome(classOrMethodName, outcome);
 			recordEvaluation(context, classOrMethodName, outcome);
 			return outcome.isMatch();
@@ -65,6 +77,11 @@ public abstract class SpringBootCondition implements Condition {
 		}
 	}
 
+	/**
+	 * @see #getClassOrMethodName(AnnotatedTypeMetadata)
+	 * @param metadata 元信息
+	 * @return 值
+	 */
 	private String getName(AnnotatedTypeMetadata metadata) {
 		if (metadata instanceof AnnotationMetadata) {
 			return ((AnnotationMetadata) metadata).getClassName();
@@ -77,13 +94,19 @@ public abstract class SpringBootCondition implements Condition {
 		return metadata.toString();
 	}
 
+	/**
+	 * classXXX类型返回className
+	 * methodXXX类型返回方法所属的类的名字#方法的名字
+	 * @param metadata
+	 * @return
+	 */
 	private static String getClassOrMethodName(AnnotatedTypeMetadata metadata) {
-		if (metadata instanceof ClassMetadata) {
+		if (metadata instanceof ClassMetadata) { //是ClassMetadata类型
 			ClassMetadata classMetadata = (ClassMetadata) metadata;
 			return classMetadata.getClassName();
 		}
-		MethodMetadata methodMetadata = (MethodMetadata) metadata;
-		return methodMetadata.getDeclaringClassName() + "#"
+		MethodMetadata methodMetadata = (MethodMetadata) metadata; //是MethodMetadata类型
+		return methodMetadata.getDeclaringClassName() + "#" //
 				+ methodMetadata.getMethodName();
 	}
 
@@ -118,6 +141,10 @@ public abstract class SpringBootCondition implements Condition {
 
 	/**
 	 * Determine the outcome of the match along with suitable log output.
+	 *
+	 * <p>
+	 *     确定匹配的结果以及合适的日志输出。
+	 * </p>
 	 * @param context the condition context
 	 * @param metadata the annotation metadata
 	 * @return the condition outcome
@@ -127,6 +154,9 @@ public abstract class SpringBootCondition implements Condition {
 
 	/**
 	 * Return true if any of the specified conditions match.
+	 * <p>
+	 *     如果任何指定的条件匹配，则返回true。
+	 * </p>
 	 * @param context the context
 	 * @param metadata the annotation meta-data
 	 * @param conditions conditions to test
@@ -144,6 +174,10 @@ public abstract class SpringBootCondition implements Condition {
 
 	/**
 	 * Return true if any of the specified condition matches.
+	 *
+	 * <p>
+	 *     如果任何指定的条件匹配，则返回true。
+	 * </p>
 	 * @param context the context
 	 * @param metadata the annotation meta-data
 	 * @param condition condition to test

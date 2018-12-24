@@ -22,6 +22,10 @@ import javax.jms.ConnectionFactory;
 /**
  * {@link HealthIndicator} for a JMS {@link ConnectionFactory}.
  *
+ * <p>
+ *     用于JMS ConnectionFactory的HealthIndicator。
+ * </p>
+ *
  * @author Stephane Nicoll
  * @since 1.3.0
  */

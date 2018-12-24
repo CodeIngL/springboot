@@ -26,6 +26,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 /**
  * Configuration properties for tracing.
  *
+ * tracing的配置项
+ *
  * @author Wallace Wadge
  * @author Phillip Webb
  * @author Venil Noronha

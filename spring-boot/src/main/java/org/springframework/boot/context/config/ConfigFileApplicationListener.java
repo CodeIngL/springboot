@@ -108,7 +108,7 @@ import org.springframework.validation.BindException;
  *     替代的搜索位置和名称可以使用setSearchLocations（String）和setSearchNames（String）来指定。
  * </p>
  * <p>
- *     其他文件也将根据活动配置文件加载。 例如，如果“web”配置文件处于活动状态，则将考虑“application-web.properties”和“application-web.yml”。
+ *     其他文件也将根据活动配置文件加载。 例如，如果“web”配置文件处于active，则将考虑“application-web.properties”和“application-web.yml”。
  * </p>
  * <p>
  *     'spring.config.name'属性可用于指定要加载的替代名称，'spring.config.location'属性可用于指定替代搜索位置或特定文件。

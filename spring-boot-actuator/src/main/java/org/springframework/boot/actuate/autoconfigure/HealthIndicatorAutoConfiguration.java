@@ -86,6 +86,9 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 /**
  * {@link EnableAutoConfiguration Auto-configuration} for {@link HealthIndicator}s.
  *
+ * <p>
+ *     健康指标
+ * </p>
  * @author Christian Dupuis
  * @author Andy Wilkinson
  * @author Stephane Nicoll

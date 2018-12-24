@@ -28,6 +28,10 @@ import org.springframework.core.ResolvableType;
  * Base class for configurations that can combine source beans using a
  * {@link CompositeHealthIndicator}.
  *
+ * <p>
+ *     可以使用CompositeHealthIndicator组合source bean的configuration的基类。
+ * </p>
+ *
  * @param <H> the health indicator type
  * @param <S> the bean source type
  * @author Stephane Nicoll

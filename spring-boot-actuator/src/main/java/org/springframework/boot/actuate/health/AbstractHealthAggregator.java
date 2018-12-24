@@ -25,6 +25,10 @@ import java.util.Map;
  * Base {@link HealthAggregator} implementation to allow subclasses to focus on
  * aggregating the {@link Status} instances and not deal with contextual details etc.
  *
+ * <p>
+ *     Base HealthAggregator实现，允许子类专注于聚合Status实例而不处理上下文细节等。
+ * </p>
+ *
  * @author Christian Dupuis
  * @author Vedran Pavic
  * @since 1.1.0

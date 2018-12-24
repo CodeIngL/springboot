@@ -69,6 +69,10 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
  * {@link BeanPostProcessor} to bind {@link PropertySources} to beans annotated with
  * {@link ConfigurationProperties}.
  *
+ * <p>
+ *     BeanPostProcessor将PropertySources绑定到使用ConfigurationProperties注解的bean。
+ * </p>
+ *
  * @author Dave Syer
  * @author Phillip Webb
  * @author Christian Dupuis

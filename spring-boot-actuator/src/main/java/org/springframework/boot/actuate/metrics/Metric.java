@@ -26,6 +26,11 @@ import org.springframework.util.ObjectUtils;
  * named numeric value with a timestamp). For example a metric might record the number of
  * active connections to a server, or the temperature of a meeting room.
  *
+ * <p>
+ *     不可变类，可用于保存任意系统测量值（带时间戳的命名数值）。
+ *     例如，度量标准可能记录到服务器的活动连接数或会议室的温度。
+ * </p>
+ *
  * @param <T> the value type
  * @author Dave Syer
  */

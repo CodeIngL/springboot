@@ -25,6 +25,10 @@ import org.springframework.core.type.AnnotationMetadata;
  * {@link ImportBeanDefinitionRegistrar} for binding externalized application properties
  * to {@link ConfigurationProperties} beans.
  *
+ * <p>
+ *     ImportBeanDefinitionRegistrar用于将外部化应用程序属性绑定到ConfigurationProperties bean。
+ * </p>
+ *
  * @author Dave Syer
  * @author Phillip Webb
  */
@@ -39,6 +43,11 @@ public class ConfigurationPropertiesBindingPostProcessorRegistrar
 
 	private static final String METADATA_BEAN_NAME = BINDER_BEAN_NAME + ".store";
 
+	/**
+	 * 尝试注册ConfigurationPropertiesBindingPostProcessor这个特殊的bean
+	 * @param importingClassMetadata
+	 * @param registry
+	 */
 	@Override
 	public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata,
 			BeanDefinitionRegistry registry) {

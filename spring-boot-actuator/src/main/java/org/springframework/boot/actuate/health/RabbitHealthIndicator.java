@@ -28,6 +28,9 @@ import org.springframework.util.Assert;
  * Simple implementation of a {@link HealthIndicator} returning status information for the
  * RabbitMQ messaging system.
  *
+ * <p>
+ *     简单实现HealthIndicator，返回RabbitMQ消息传递系统的状态信息。
+ * </p>
  * @author Christian Dupuis
  * @since 1.1.0
  */

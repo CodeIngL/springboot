@@ -19,6 +19,10 @@ package org.springframework.boot.actuate.health;
 /**
  * Default implementation of {@link HealthIndicator} that returns {@link Status#UP}.
  *
+ * <p>
+ *     返回Status.UP的HealthIndicator的默认实现。
+ * </p>
+ *
  * @author Dave Syer
  * @author Christian Dupuis
  * @see Status#UP

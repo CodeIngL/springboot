@@ -22,6 +22,10 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 /**
  * {@link HealthIndicator} for configured smtp server(s).
  *
+ * <p>
+ *     用于配置的smtp服务器的HealthIndicator。
+ * </p>
+ *
  * @author Johannes Edmeier
  * @since 1.3.0
  */

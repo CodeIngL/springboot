@@ -26,6 +26,10 @@ import org.springframework.util.Assert;
 /**
  * {@link Endpoint} to expose {@link Trace} information.
  *
+ * <p>
+ *     公开跟踪信息的端点。
+ * </p>
+ *
  * @author Dave Syer
  */
 @ConfigurationProperties(prefix = "endpoints.trace")

@@ -70,6 +70,9 @@ public final class ConditionEvaluationReport {
 
 	/**
 	 * Record the occurrence of condition evaluation.
+	 * <p>
+	 *     记录条件评估的发生。
+	 * </p>
 	 * @param source the source of the condition (class or method name)
 	 * @param condition the condition evaluated
 	 * @param outcome the condition outcome

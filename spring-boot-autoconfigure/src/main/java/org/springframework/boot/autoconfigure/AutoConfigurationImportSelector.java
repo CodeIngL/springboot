@@ -136,6 +136,10 @@ public class AutoConfigurationImportSelector
 	 * Return the appropriate {@link AnnotationAttributes} from the
 	 * {@link AnnotationMetadata}. By default this method will return attributes for
 	 * {@link #getAnnotationClass()}.
+	 *
+	 * <p>
+	 *     从AnnotationMetadata返回适当的AnnotationAttributes。 默认情况下，此方法将返回getAnnotationClass()的属性。
+	 * </p>
 	 * @param metadata the annotation metadata
 	 * @return annotation attributes
 	 */

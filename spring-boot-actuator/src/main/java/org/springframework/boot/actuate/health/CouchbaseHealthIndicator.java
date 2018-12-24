@@ -27,6 +27,10 @@ import org.springframework.util.StringUtils;
 /**
  * {@link HealthIndicator} for Couchbase.
  *
+ * <p>
+ *     Couchbase的HealthIndicator
+ * </p>
+ *
  * @author Eddú Meléndez
  * @since 1.4.0
  */

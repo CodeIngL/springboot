@@ -27,6 +27,10 @@ import org.springframework.util.Assert;
  * Simple implementation of a {@link HealthIndicator} returning status information for
  * Cassandra data stores.
  *
+ * <p>
+ *     简单实现HealthIndicator返回Cassandra数据存储的状态信息。
+ * </p>
+ *
  * @author Julien Dubois
  * @since 1.3.0
  */

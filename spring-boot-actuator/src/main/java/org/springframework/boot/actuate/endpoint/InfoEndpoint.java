@@ -27,6 +27,10 @@ import org.springframework.util.Assert;
 /**
  * {@link Endpoint} to expose arbitrary application information.
  *
+ * <p>
+ *     公开任意应用程序信息的EndPoint。
+ * </p>
+ *
  * @author Dave Syer
  * @author Meang Akira Tanaka
  * @author Stephane Nicoll

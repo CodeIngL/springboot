@@ -26,6 +26,11 @@ import org.springframework.boot.actuate.metrics.Metric;
  * application context, but they shouldn't have to care about global uniqueness in the JVM
  * or across a distributed system.
  *
+ * <p>
+ *     通过MetricsEndpoint公开特定Metric标准的接口。
+ *     实现应该注意它们提供的Metric标准在应用程序上下文中具有唯一的名称，但它们不必关心JVM中或跨分布式系统的全局唯一性。
+ * </p>
+ *
  * @author Dave Syer
  * @see SystemPublicMetrics SystemPublicMetrics for an example implementation
  */

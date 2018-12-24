@@ -48,6 +48,10 @@ import org.springframework.web.filter.OncePerRequestFilter;
 /**
  * Servlet {@link Filter} that logs all requests to a {@link TraceRepository}.
  *
+ * <p>
+ *     Servlet过滤器，将所有请求记录到TraceRepository
+ * </p>
+ *
  * @author Dave Syer
  * @author Wallace Wadge
  * @author Andy Wilkinson

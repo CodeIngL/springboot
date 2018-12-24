@@ -40,6 +40,10 @@ import org.springframework.util.StringUtils;
  * {@link HealthIndicator} that tests the status of a {@link DataSource} and optionally
  * runs a test query.
  *
+ * <p>
+ *     HealthIndicator，用于测试DataSource的状态，并可选择运行测试查询。
+ * </p>
+ *
  * @author Dave Syer
  * @author Christian Dupuis
  * @author Andy Wilkinson

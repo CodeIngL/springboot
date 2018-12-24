@@ -184,6 +184,11 @@ public class AnnotationConfigEmbeddedWebApplicationContext
 		super.prepareRefresh();
 	}
 
+	/**
+	 * 这是一个非常关键的一个阶段
+	 * 因为之前使用SpringApplication已经注册了一批BeanDef
+	 * @param beanFactory
+	 */
 	@Override
 	protected void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) {
 		super.postProcessBeanFactory(beanFactory);

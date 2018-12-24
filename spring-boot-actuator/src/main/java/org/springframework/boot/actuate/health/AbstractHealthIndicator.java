@@ -29,6 +29,13 @@ import org.springframework.boot.actuate.health.Health.Builder;
  * {@link #doHealthCheck(org.springframework.boot.actuate.health.Health.Builder)} should
  * create a {@link Status#DOWN} health status.
  *
+ * <p>
+ *     Base HealthIndicator实现，封装了Health实例的创建和错误处理。
+ * </p>
+ * <p>
+ *      此实现仅适用于从doHealthCheck（Health.Builder）引发的异常应创建Status.DOWN运行状况的情况。
+ * </p>
+ *
  * @author Christian Dupuis
  * @since 1.1.0
  */

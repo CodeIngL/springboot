@@ -31,6 +31,13 @@ import org.springframework.context.annotation.Conditional;
  * matches if the value of the {@code endpoints.enabled} property is {@code true} or if
  * the property is not configured.
  *
+ * <p>
+ *     条件，检查端点是否已启用。
+ *     如果endpoints.<name>.enabled属性为true，则匹配。
+ *     如果属性的值或enabledByDefault为false，则不匹配。
+ *     否则，如果endpoints.enabled属性的值为true或未配置该属性，则匹配。
+ * </p>
+ *
  * @author Andy Wilkinson
  * @since 1.2.4
  */

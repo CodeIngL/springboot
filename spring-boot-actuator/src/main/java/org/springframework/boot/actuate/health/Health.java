@@ -46,6 +46,25 @@ import org.springframework.util.Assert;
  * }
  * </pre>
  *
+ * <p>
+ *      提供有关组件或子系统运行状况的信息。
+ * </p>
+ * <p>
+ *      运行状况包含用于表示组件或子系统状态的状态以及用于携带某些上下文信息的一些其他详细信息。
+ * </p>
+ * <p>
+ *      可以使用Health.Builder的流式API创建运行状况实例。 HealthIndicator中的典型用法是：
+ * </p>
+ * <pre class="code">
+ * try {
+ * 	// do some test to determine state of component
+ * 	return new Health.Builder().up().withDetail("version", "1.1.2").build();
+ * }
+ * catch (Exception ex) {
+ * 	return new Health.Builder().down(ex).build();
+ * }
+ * </pre>
+ *
  * @author Christian Dupuis
  * @author Phillip Webb
  * @since 1.1.0

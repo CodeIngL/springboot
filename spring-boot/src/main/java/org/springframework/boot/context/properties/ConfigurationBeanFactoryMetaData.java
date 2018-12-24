@@ -34,6 +34,10 @@ import org.springframework.util.ReflectionUtils.MethodCallback;
  * Utility class to memorize {@code @Bean} definition meta data during initialization of
  * the bean factory.
  *
+ * <p>
+ *     在bean工厂初始化期间记住@Bean定义元数据的实用程序类
+ * </p>
+ *
  * @author Dave Syer
  * @since 1.1.0
  */

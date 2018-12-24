@@ -40,12 +40,25 @@ import org.springframework.util.StringUtils;
  * to the class name (thus an application context usually only contains one
  * {@link ConfigurationProperties} bean of each unique type).
  *
+ *
+ * <p>
+ *     导入选择器，将外部属性绑定到配置类（请参阅ConfigurationProperties）。
+ *     它要么注册一个ConfigurationProperties bean，要么不注册,取决于封闭的EnableConfigurationProperties是否显式声明一个。
+ *     如果没有声明，那么一个bean后期处理器仍然会踢入注释为外部配置的任何bean。
+ *     如果声明了一个bean，那么它的一个bean定义就会被注册，id等于类名（因此应用程序上下文通常只包含一个唯一类型的ConfigurationProperties bean）。
+ * </p>
+ *
  * @author Dave Syer
  * @author Christian Dupuis
  * @author Stephane Nicoll
  */
 class EnableConfigurationPropertiesImportSelector implements ImportSelector {
 
+	/**
+	 * 根据导入的@Configuration类的AnnotationMetadata选择并返回应导入哪个类的名称。
+	 * @param metadata 元数据
+	 * @return
+	 */
 	@Override
 	public String[] selectImports(AnnotationMetadata metadata) {
 		MultiValueMap<String, Object> attributes = metadata.getAllAnnotationAttributes(
@@ -63,6 +76,9 @@ class EnableConfigurationPropertiesImportSelector implements ImportSelector {
 
 	/**
 	 * {@link ImportBeanDefinitionRegistrar} for configuration properties support.
+	 * <p>
+	 *     ImportBeanDefinitionRegistrar用于配置属性支持。
+	 * </p>
 	 */
 	public static class ConfigurationPropertiesBeanRegistrar
 			implements ImportBeanDefinitionRegistrar {
