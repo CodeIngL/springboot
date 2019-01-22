@@ -28,6 +28,9 @@ import org.springframework.util.StringUtils;
 
 /**
  * Internal utility used to load {@link AutoConfigurationMetadata}.
+ * <p>
+ *     用于加载{@link AutoConfigurationMetadata}的内部实用程序。
+ * </p>
  *
  * @author Phillip Webb
  */

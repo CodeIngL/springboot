@@ -229,13 +229,19 @@ public class PropertiesConfigurationFactory<T>
 		return this.target;
 	}
 
+	/**
+	 * 进行绑定
+	 * @throws BindException
+	 */
 	public void bindPropertiesToTarget() throws BindException {
+		//确定属性源不会为空
 		Assert.state(this.propertySources != null, "PropertySources should not be null");
 		try {
 			if (logger.isTraceEnabled()) {
 				logger.trace("Property Sources: " + this.propertySources);
 
 			}
+			//设计标记
 			this.hasBeenBound = true;
 			doBindPropertiesToTarget();
 		}
@@ -249,26 +255,39 @@ public class PropertiesConfigurationFactory<T>
 		}
 	}
 
+	/**
+	 * 真正的绑定过程
+	 * @throws BindException
+	 */
 	private void doBindPropertiesToTarget() throws BindException {
+		//存在名字使用不同的构造函数形式
 		RelaxedDataBinder dataBinder = (this.targetName != null
 				? new RelaxedDataBinder(this.target, this.targetName)
 				: new RelaxedDataBinder(this.target));
+		//存在校验器，为数据绑定设置校验器
 		if (this.validator != null
 				&& this.validator.supports(dataBinder.getTarget().getClass())) {
 			dataBinder.setValidator(this.validator);
 		}
+		//存在转换器，为数据绑定设置转换器
 		if (this.conversionService != null) {
 			dataBinder.setConversionService(this.conversionService);
 		}
+		//设置自动增长的最大值
 		dataBinder.setAutoGrowCollectionLimit(Integer.MAX_VALUE);
 		dataBinder.setIgnoreNestedProperties(this.ignoreNestedProperties);
 		dataBinder.setIgnoreInvalidFields(this.ignoreInvalidFields);
 		dataBinder.setIgnoreUnknownFields(this.ignoreUnknownFields);
+		//自定义绑定
 		customizeBinder(dataBinder);
+		//存在名字，装换为灵活的名字。
 		Iterable<String> relaxedTargetNames = getRelaxedTargetNames();
+		//获得名字增加相关的前缀
 		Set<String> names = getNames(relaxedTargetNames);
+		//获得属性源
 		PropertyValues propertyValues = getPropertySourcesPropertyValues(names,
 				relaxedTargetNames);
+		//进行绑定的校验
 		dataBinder.bind(propertyValues);
 		if (this.validator != null) {
 			dataBinder.validate();
@@ -281,22 +300,30 @@ public class PropertiesConfigurationFactory<T>
 				? new RelaxedNames(this.targetName) : null);
 	}
 
+	/**
+	 * 为目标类的字段名字添加前缀，
+	 * @param prefixes
+	 * @return
+	 */
 	private Set<String> getNames(Iterable<String> prefixes) {
 		Set<String> names = new LinkedHashSet<String>();
 		if (this.target != null) {
+			//获得类属性描述符
 			PropertyDescriptor[] descriptors = BeanUtils
 					.getPropertyDescriptors(this.target.getClass());
+			//遍历属性描述
 			for (PropertyDescriptor descriptor : descriptors) {
 				String name = descriptor.getName();
-				if (!name.equals("class")) {
+				if (!name.equals("class")) {//不是class 说明是正常的
+					//大写转换为-
 					RelaxedNames relaxedNames = RelaxedNames.forCamelCase(name);
-					if (prefixes == null) {
+					if (prefixes == null) {//前缀为空加入集合中
 						for (String relaxedName : relaxedNames) {
 							names.add(relaxedName);
 						}
 					}
 					else {
-						for (String prefix : prefixes) {
+						for (String prefix : prefixes) {//遍历前缀，添加相应的前缀
 							for (String relaxedName : relaxedNames) {
 								names.add(prefix + "." + relaxedName);
 								names.add(prefix + "_" + relaxedName);
@@ -309,10 +336,19 @@ public class PropertiesConfigurationFactory<T>
 		return names;
 	}
 
+	/**
+	 *
+	 * 获得属性源
+	 * @param names
+	 * @param relaxedTargetNames
+	 * @return
+	 */
 	private PropertyValues getPropertySourcesPropertyValues(Set<String> names,
 			Iterable<String> relaxedTargetNames) {
+		//获得模式匹配器
 		PropertyNamePatternsMatcher includes = getPropertyNamePatternsMatcher(names,
 				relaxedTargetNames);
+		//返回一个构建属性源属性值
 		return new PropertySourcesPropertyValues(this.propertySources, names, includes,
 				this.resolvePlaceholders);
 	}
@@ -322,12 +358,14 @@ public class PropertiesConfigurationFactory<T>
 		if (this.ignoreUnknownFields && !isMapTarget()) {
 			// Since unknown fields are ignored we can filter them out early to save
 			// unnecessary calls to the PropertySource.
+			// 由于忽略了未知字段，我们可以提前过滤它们以节省对PropertySource的不必要调用。
 			return new DefaultPropertyNamePatternsMatcher(EXACT_DELIMITERS, true, names);
 		}
 		if (relaxedTargetNames != null) {
 			// We can filter properties to those starting with the target name, but
 			// we can't do a complete filter since we need to trigger the
 			// unknown fields check
+			// 我们可以将属性过滤到以目标名称开头的属性，但我们无法进行完整的过滤，因为我们需要触发未知字段检查
 			Set<String> relaxedNames = new HashSet<String>();
 			for (String relaxedTargetName : relaxedTargetNames) {
 				relaxedNames.add(relaxedTargetName);
@@ -336,6 +374,7 @@ public class PropertiesConfigurationFactory<T>
 					relaxedNames);
 		}
 		// Not ideal, we basically can't filter anything
+		// 不理想，我们基本上无法过滤任何东西
 		return PropertyNamePatternsMatcher.ALL;
 	}
 

@@ -19,11 +19,17 @@ package org.springframework.boot.bind;
 /**
  * Strategy interface used to check if a property name matches specific criteria.
  *
+ * <p>
+ *     用于检查属性名称是否与特定条件匹配的策略接口。
+ * </p>
  * @author Phillip Webb
  * @since 1.2.0
  */
 interface PropertyNamePatternsMatcher {
 
+	/**
+	 * 全部可以进行相应的匹配
+	 */
 	PropertyNamePatternsMatcher ALL = new PropertyNamePatternsMatcher() {
 
 		@Override
@@ -33,6 +39,9 @@ interface PropertyNamePatternsMatcher {
 
 	};
 
+	/**
+	 * 全部无法进行相关的匹配
+	 */
 	PropertyNamePatternsMatcher NONE = new PropertyNamePatternsMatcher() {
 
 		@Override

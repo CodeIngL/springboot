@@ -206,7 +206,7 @@ public class ConfigurationPropertiesBindingPostProcessor implements BeanPostProc
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		if (this.propertySources == null) {
+		if (this.propertySources == null) {//没有指定相应的属性源。那么我们从环境中推倒出相应的属性源。
 			this.propertySources = deducePropertySources();
 		}
 		if (this.validator == null) {
@@ -243,6 +243,7 @@ public class ConfigurationPropertiesBindingPostProcessor implements BeanPostProc
 	}
 
 	private PropertySources deducePropertySources() {
+		//尝试去配置中获取相应放入配置，如果超过一个，我们退回从环境中或缺。
 		PropertySourcesPlaceholderConfigurer configurer = getSinglePropertySourcesPlaceholderConfigurer();
 		if (configurer != null) {
 			// Flatten the sources into a single list so they can be iterated
@@ -287,14 +288,21 @@ public class ConfigurationPropertiesBindingPostProcessor implements BeanPostProc
 		}
 	}
 
+	/**
+	 * 在初始化之前，标记过时，这里可能不是一个好的处理机会
+	 * @param bean
+	 * @param beanName
+	 */
 	@Override
 	public Object postProcessBeforeInitialization(Object bean, String beanName)
 			throws BeansException {
+		//类上
 		ConfigurationProperties annotation = AnnotationUtils
 				.findAnnotation(bean.getClass(), ConfigurationProperties.class);
 		if (annotation != null) {
 			postProcessBeforeInitialization(bean, beanName, annotation);
 		}
+		//方法上
 		annotation = this.beans.findFactoryAnnotation(beanName,
 				ConfigurationProperties.class);
 		if (annotation != null) {
@@ -309,29 +317,37 @@ public class ConfigurationPropertiesBindingPostProcessor implements BeanPostProc
 		return bean;
 	}
 
+
+	/**
+	 * 处理ConfigurationProperties
+	 * @param bean
+	 * @param beanName
+	 * @param annotation
+	 */
 	@SuppressWarnings("deprecation")
 	private void postProcessBeforeInitialization(Object bean, String beanName,
 			ConfigurationProperties annotation) {
-		Object target = bean;
+		Object target = bean; //目标实例
 		PropertiesConfigurationFactory<Object> factory = new PropertiesConfigurationFactory<Object>(
-				target);
-		factory.setPropertySources(this.propertySources);
-		factory.setValidator(determineValidator(bean));
+				target); //构建
+		factory.setPropertySources(this.propertySources); //设置属性源
+		factory.setValidator(determineValidator(bean)); //设置校验器
 		// If no explicit conversion service is provided we add one so that (at least)
 		// comma-separated arrays of convertibles can be bound automatically
+		// 如果没有提供显式转换服务，我们添加一个，以便（至少）逗号分隔的可转换数组可以自动绑定
 		factory.setConversionService(this.conversionService == null
-				? getDefaultConversionService() : this.conversionService);
-		if (annotation != null) {
-			factory.setIgnoreInvalidFields(annotation.ignoreInvalidFields());
-			factory.setIgnoreUnknownFields(annotation.ignoreUnknownFields());
-			factory.setExceptionIfInvalid(annotation.exceptionIfInvalid());
-			factory.setIgnoreNestedProperties(annotation.ignoreNestedProperties());
-			if (StringUtils.hasLength(annotation.prefix())) {
-				factory.setTargetName(annotation.prefix());
+				? getDefaultConversionService() : this.conversionService); //设置转换服务
+		if (annotation != null) {//不为空，需要进行处理
+			factory.setIgnoreInvalidFields(annotation.ignoreInvalidFields()); //设置相关信息，
+			factory.setIgnoreUnknownFields(annotation.ignoreUnknownFields());//设置
+			factory.setExceptionIfInvalid(annotation.exceptionIfInvalid()); //设置
+			factory.setIgnoreNestedProperties(annotation.ignoreNestedProperties());//设置
+			if (StringUtils.hasLength(annotation.prefix())) { //设置
+				factory.setTargetName(annotation.prefix());//设置前缀
 			}
 		}
 		try {
-			factory.bindPropertiesToTarget();
+			factory.bindPropertiesToTarget(); //绑定到目标
 		}
 		catch (Exception ex) {
 			String targetClass = ClassUtils.getShortName(target.getClass());
@@ -353,6 +369,11 @@ public class ConfigurationPropertiesBindingPostProcessor implements BeanPostProc
 		return details.toString();
 	}
 
+	/**
+	 * 决定是否进行校验
+	 * @param bean
+	 * @return
+	 */
 	private Validator determineValidator(Object bean) {
 		Validator validator = getValidator();
 		boolean supportsBean = (validator != null && validator.supports(bean.getClass()));
@@ -388,14 +409,19 @@ public class ConfigurationPropertiesBindingPostProcessor implements BeanPostProc
 
 	private ConversionService getDefaultConversionService() {
 		if (this.defaultConversionService == null) {
+			//构建默认的的转换器
 			DefaultConversionService conversionService = new DefaultConversionService();
+			//并注入到容器中
 			this.applicationContext.getAutowireCapableBeanFactory().autowireBean(this);
+			//添加相关的转换操作
 			for (Converter<?, ?> converter : this.converters) {
 				conversionService.addConverter(converter);
 			}
+			//添加相关的转换操作
 			for (GenericConverter genericConverter : this.genericConverters) {
 				conversionService.addConverter(genericConverter);
 			}
+			//设置默认的转换器
 			this.defaultConversionService = conversionService;
 		}
 		return this.defaultConversionService;
@@ -476,6 +502,10 @@ public class ConfigurationPropertiesBindingPostProcessor implements BeanPostProc
 	/**
 	 * Convenience class to flatten out a tree of property sources without losing the
 	 * reference to the backing data (which can therefore be updated in the background).
+	 *
+	 * <p>
+	 *     便利类可以在不丢失对后备数据的引用的情况下展平属性源树（因此可以在后台更新）。
+	 * </p>
 	 */
 	private static class FlatPropertySources implements PropertySources {
 

@@ -111,6 +111,7 @@ public class PropertySourcesPropertyValues implements PropertyValues {
 		this.nonEnumerableFallbackNames = nonEnumerableFallbackNames;
 		this.includes = includes;
 		this.resolvePlaceholders = resolvePlaceholders;
+		//构建属性源解析器
 		PropertySourcesPropertyResolver resolver = new PropertySourcesPropertyResolver(
 				propertySources);
 		for (PropertySource<?> source : propertySources) {
@@ -118,17 +119,22 @@ public class PropertySourcesPropertyValues implements PropertyValues {
 		}
 	}
 
+	/**
+	 * 处理属性源
+	 * @param source
+	 * @param resolver
+	 */
 	private void processPropertySource(PropertySource<?> source,
 			PropertySourcesPropertyResolver resolver) {
-		if (source instanceof CompositePropertySource) {
-			processCompositePropertySource((CompositePropertySource) source, resolver);
+		if (source instanceof CompositePropertySource) {//组合属性源
+			processCompositePropertySource((CompositePropertySource) source, resolver); //递归进行处理
 		}
-		else if (source instanceof EnumerablePropertySource) {
+		else if (source instanceof EnumerablePropertySource) {//处理可以枚举的属性源
 			processEnumerablePropertySource((EnumerablePropertySource<?>) source,
 					resolver, this.includes);
 		}
 		else {
-			processNonEnumerablePropertySource(source, resolver);
+			processNonEnumerablePropertySource(source, resolver); //处理不可以枚举的属性源，通常属性源应该是可以枚举的
 		}
 	}
 
@@ -139,19 +145,33 @@ public class PropertySourcesPropertyValues implements PropertyValues {
 		}
 	}
 
+	/**
+	 * 处理可以枚举的属性源
+	 * @param source
+	 * @param resolver
+	 * @param includes
+	 */
 	private void processEnumerablePropertySource(EnumerablePropertySource<?> source,
 			PropertySourcesPropertyResolver resolver,
 			PropertyNamePatternsMatcher includes) {
+		//属性源的属性名称大于0
 		if (source.getPropertyNames().length > 0) {
-			for (String propertyName : source.getPropertyNames()) {
-				if (includes.matches(propertyName)) {
-					Object value = getEnumerableProperty(source, resolver, propertyName);
+			for (String propertyName : source.getPropertyNames()) { //变量相关的名字
+				if (includes.matches(propertyName)) {//是否可以匹配
+					Object value = getEnumerableProperty(source, resolver, propertyName); //获得相关的值
 					putIfAbsent(propertyName, value, source);
 				}
 			}
 		}
 	}
 
+	/**
+	 * 获得属性源中名字为propertyName的值，并进行相应的解析。
+	 * @param source
+	 * @param resolver
+	 * @param propertyName
+	 * @return
+	 */
 	private Object getEnumerableProperty(EnumerablePropertySource<?> source,
 			PropertySourcesPropertyResolver resolver, String propertyName) {
 		try {
@@ -169,23 +189,29 @@ public class PropertySourcesPropertyValues implements PropertyValues {
 			PropertySourcesPropertyResolver resolver) {
 		// We can only do exact matches for non-enumerable property names, but
 		// that's better than nothing...
+		// 我们只能对非可枚举的属性名称进行精确匹配，但这比没有好...
 		if (this.nonEnumerableFallbackNames == null) {
 			return;
 		}
+		//遍历相应的属性，只对我们设置的不可以枚举的属性进行设置。
 		for (String propertyName : this.nonEnumerableFallbackNames) {
 			if (!source.containsProperty(propertyName)) {
 				continue;
 			}
+			//得到值后
 			Object value = null;
 			try {
+				//就尝试去解析
 				value = resolver.getProperty(propertyName, Object.class);
 			}
 			catch (RuntimeException ex) {
 				// Probably could not convert to Object, weird, but ignorable
 			}
+			//尝试从源中获得值
 			if (value == null) {
 				value = source.getProperty(propertyName.toUpperCase());
 			}
+			//尝试放入，乳沟有的话
 			putIfAbsent(propertyName, value, source);
 		}
 	}
@@ -212,12 +238,20 @@ public class PropertySourcesPropertyValues implements PropertyValues {
 		return null;
 	}
 
+	/**
+	 * 如果不存在就放入。
+	 * @param propertyName
+	 * @param value
+	 * @param source
+	 * @return
+	 */
 	private PropertyValue putIfAbsent(String propertyName, Object value,
 			PropertySource<?> source) {
 		if (value != null && !this.propertyValues.containsKey(propertyName)) {
 			PropertySource<?> collectionOwner = this.collectionOwners.putIfAbsent(
 					COLLECTION_PROPERTY.matcher(propertyName).replaceAll("[]"), source);
 			if (collectionOwner == null || collectionOwner == source) {
+				//包装的属性值。有名字，值，原始名字，来自的属性源构成。
 				PropertyValue propertyValue = new OriginCapablePropertyValue(propertyName,
 						value, propertyName, source);
 				this.propertyValues.put(propertyName, propertyValue);

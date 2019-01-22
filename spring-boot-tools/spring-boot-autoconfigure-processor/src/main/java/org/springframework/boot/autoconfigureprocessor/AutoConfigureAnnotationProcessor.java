@@ -44,6 +44,9 @@ import javax.tools.StandardLocation;
 /**
  * Annotation processor to store certain annotations from auto-configuration classes in a
  * property file.
+ * <p>
+ *     注解处理器，用于存储属性文件中自动配置类的某些注解。
+ * </p>
  *
  * @author Madhura Bhave
  * @author Phillip Webb

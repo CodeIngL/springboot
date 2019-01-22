@@ -35,9 +35,9 @@ import org.springframework.web.servlet.HandlerMapping;
  * non-servlet environment.
  *
  * <p>
- *     HandlerMapping通过Endpoint.getId（）将端点映射到URL。
- *     @ RequestMapping的语义应该与一个普通的@Controller相同，
- *     但是不应该把终结点注释为@Controller（否则它们将被正常的MVC机制映射）。
+ *     {@link HandlerMapping} 通过{@link Endpoint#getId()}将{@link Endpoint}映射到URL。
+ *     {@code @RequestMapping}的语义应该与一个普通的@Controller相同，
+ *     但是不应该把终结点注解为@Controller（否则它们将被正常的MVC机制映射）。
  * </p>
  * <p>
  *      映射的目标之一是支持作为HTTP端点的端点，

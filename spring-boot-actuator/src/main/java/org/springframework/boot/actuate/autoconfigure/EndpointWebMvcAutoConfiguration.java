@@ -86,6 +86,13 @@ import org.springframework.web.servlet.DispatcherServlet;
  * different port to {@link ServerProperties} a new child context is created, otherwise it
  * is assumed that endpoint requests will be mapped and handled via an already registered
  * {@link DispatcherServlet}.
+ * <p>
+ *     自动配置以使Spring MVC能够处理端点请求。
+ * </p>
+ * <p>
+ *     如果{@link ManagementServerProperties} 为{@link ServerProperties}指定了一个不同的端口，则会创建一个新的子上下文，
+ *     否则将假定将通过已注册的{@link DispatcherServlet}映射和处理端点请求
+ * </p>
  *
  * @author Dave Syer
  * @author Phillip Webb

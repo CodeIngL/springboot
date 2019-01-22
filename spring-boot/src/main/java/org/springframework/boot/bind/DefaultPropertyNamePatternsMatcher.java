@@ -25,11 +25,18 @@ import java.util.Set;
  * one of the given names, or starts with one of the given names followed by a delimiter.
  * This implementation is optimized for frequent calls.
  *
+ * <p>
+ *     PropertyNamePatternsMatcher，当属性名称与给定名称之一完全匹配时匹配，或者以给定名称之一后跟分隔符开始。 此实现针对频繁调用进行了优化
+ * </p>
+ *
  * @author Phillip Webb
  * @since 1.2.0
  */
 class DefaultPropertyNamePatternsMatcher implements PropertyNamePatternsMatcher {
 
+	/**
+	 * 分隔符
+	 */
 	private final char[] delimiters;
 
 	private final boolean ignoreCase;

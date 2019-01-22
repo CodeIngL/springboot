@@ -32,6 +32,9 @@ import org.springframework.util.ConcurrentReferenceHashMap;
  * {@link ConcurrentReferenceHashMap}, caching {@link MetadataReader} per Spring
  * {@link Resource} handle (i.e. per ".class" file).
  *
+ * <p>
+ *     缓存由ConcurrentReferenceHashMap支持的MetadataReaderFactory接口的实现，每个Spring Resource句柄缓存MetadataReader（即每个“.class”文件）。
+ * </p>
  * @author Phillip Webb
  * @since 1.4.0
  * @see CachingMetadataReaderFactory

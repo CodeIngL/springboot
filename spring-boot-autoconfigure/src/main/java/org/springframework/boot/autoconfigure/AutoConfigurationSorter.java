@@ -38,6 +38,10 @@ import org.springframework.util.Assert;
  * reading {@link AutoConfigureOrder}, {@link AutoConfigureBefore} and
  * {@link AutoConfigureAfter} annotations (without loading classes).
  *
+ * <p>
+ *     通过读取AutoConfigureOrder，AutoConfigureBefore和AutoConfigureAfter注解（无需加载类），将自动配置类按优先级顺序排序。
+ * </p>
+ *
  * @author Phillip Webb
  */
 class AutoConfigurationSorter {
@@ -53,13 +57,22 @@ class AutoConfigurationSorter {
 		this.autoConfigurationMetadata = autoConfigurationMetadata;
 	}
 
+	/**
+	 * 对一组classNames进行相关的配置和解析
+	 * @param classNames
+	 * @return
+	 */
 	public List<String> getInPriorityOrder(Collection<String> classNames) {
+		//构建对应的结构，自动配置Classes
 		final AutoConfigurationClasses classes = new AutoConfigurationClasses(
 				this.metadataReaderFactory, this.autoConfigurationMetadata, classNames);
+		//需要排序的class
 		List<String> orderedClassNames = new ArrayList<String>(classNames);
 		// Initially sort alphabetically
+		// 开始使用字符串顺序进行排序
 		Collections.sort(orderedClassNames);
 		// Then sort by order
+		// 使用order排序
 		Collections.sort(orderedClassNames, new Comparator<String>() {
 
 			@Override
@@ -71,10 +84,17 @@ class AutoConfigurationSorter {
 
 		});
 		// Then respect @AutoConfigureBefore @AutoConfigureAfter
+		// 然后通过注解@AutoConfigureBefore和@AutoConfigureAfter进行排序
 		orderedClassNames = sortByAnnotation(classes, orderedClassNames);
 		return orderedClassNames;
 	}
 
+	/**
+	 * 通过注解进行排序
+	 * @param classes
+	 * @param classNames
+	 * @return
+	 */
 	private List<String> sortByAnnotation(AutoConfigurationClasses classes,
 			List<String> classNames) {
 		List<String> toSort = new ArrayList<String>(classNames);
@@ -86,6 +106,14 @@ class AutoConfigurationSorter {
 		return new ArrayList<String>(sorted);
 	}
 
+	/**
+	 * 进行排序
+	 * @param classes
+	 * @param toSort
+	 * @param sorted
+	 * @param processing
+	 * @param current
+	 */
 	private void doSortByAfterAnnotation(AutoConfigurationClasses classes,
 			List<String> toSort, Set<String> sorted, Set<String> processing,
 			String current) {
@@ -104,10 +132,20 @@ class AutoConfigurationSorter {
 		sorted.add(current);
 	}
 
+	/**
+	 * 自动配置类，集合他将负责进行排序
+	 */
 	private static class AutoConfigurationClasses {
 
 		private final Map<String, AutoConfigurationClass> classes = new HashMap<String, AutoConfigurationClass>();
 
+		/**
+		 * 为每一个字符串代表的自动配置类，进配置一个对应的元信息类。也就是
+		 * AutoConfigurationClass
+		 * @param metadataReaderFactory
+		 * @param autoConfigurationMetadata 自动配置的相关的信息。
+		 * @param classNames
+		 */
 		AutoConfigurationClasses(MetadataReaderFactory metadataReaderFactory,
 				AutoConfigurationMetadata autoConfigurationMetadata,
 				Collection<String> classNames) {
@@ -135,18 +173,39 @@ class AutoConfigurationSorter {
 
 	}
 
+	/**
+	 * 代表了一个自动配置类
+	 */
 	private static class AutoConfigurationClass {
 
+		/**
+		 * 类名
+		 */
 		private final String className;
 
+		/**
+		 * 元信息读取工厂，通常会使用防止加载
+		 */
 		private final MetadataReaderFactory metadataReaderFactory;
 
+		/**
+		 * 直接配置的元信息
+		 */
 		private final AutoConfigurationMetadata autoConfigurationMetadata;
 
+		/**
+		 * 注解信息
+		 */
 		private AnnotationMetadata annotationMetadata;
 
+		/**
+		 * 在本类前面的类
+		 */
 		private final Set<String> before;
 
+		/**
+		 * 在本类后面的类
+		 */
 		private final Set<String> after;
 
 		AutoConfigurationClass(String className,
@@ -167,30 +226,48 @@ class AutoConfigurationSorter {
 			return this.after;
 		}
 
+		/**
+		 * 获得order值
+		 * @return
+		 */
 		private int getOrder() {
+			//已经在里面了，使用里面的配置
 			if (this.autoConfigurationMetadata.wasProcessed(this.className)) {
 				return this.autoConfigurationMetadata.getInteger(this.className,
 						"AutoConfigureOrder", Ordered.LOWEST_PRECEDENCE);
 			}
+			//不在里面使用外面的配置信息
 			Map<String, Object> attributes = getAnnotationMetadata()
 					.getAnnotationAttributes(AutoConfigureOrder.class.getName());
 			return (attributes == null ? Ordered.LOWEST_PRECEDENCE
 					: (Integer) attributes.get("value"));
 		}
 
+		/**
+		 * 获得before
+		 * @return
+		 */
 		private Set<String> readBefore() {
+			//已经在里面了，使用里面的配置
 			if (this.autoConfigurationMetadata.wasProcessed(this.className)) {
 				return this.autoConfigurationMetadata.getSet(this.className,
 						"AutoConfigureBefore", Collections.<String>emptySet());
 			}
+			//不在里面使用外面的配置信息
 			return getAnnotationValue(AutoConfigureBefore.class);
 		}
 
+		/**
+		 * 获得after
+		 * @return
+		 */
 		private Set<String> readAfter() {
+			//已经在里面了，使用里面的配置
 			if (this.autoConfigurationMetadata.wasProcessed(this.className)) {
 				return this.autoConfigurationMetadata.getSet(this.className,
 						"AutoConfigureAfter", Collections.<String>emptySet());
 			}
+			//不在里面使用外面的配置信息
 			return getAnnotationValue(AutoConfigureAfter.class);
 		}
 

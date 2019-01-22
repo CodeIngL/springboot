@@ -98,7 +98,7 @@ public class AutoConfigurationImportSelector
 			return NO_IMPORTS;
 		}
 		try {
-			//加载自带配置元信息
+			//加载自动配置的元信息:--> spring-autoconfigure-metadata.properties
 			AutoConfigurationMetadata autoConfigurationMetadata = AutoConfigurationMetadataLoader
 					.loadMetadata(this.beanClassLoader);
 			//获得注解元信息上的注解属性
@@ -189,6 +189,12 @@ public class AutoConfigurationImportSelector
 		return EnableAutoConfiguration.class;
 	}
 
+	/**
+	 *
+	 * 检查需要排除的配置类
+	 * @param configurations
+	 * @param exclusions
+	 */
 	private void checkExcludedClasses(List<String> configurations,
 			Set<String> exclusions) {
 		List<String> invalidExcludes = new ArrayList<String>(exclusions.size());
@@ -220,6 +226,9 @@ public class AutoConfigurationImportSelector
 
 	/**
 	 * Return any exclusions that limit the candidate configurations.
+	 * <p>
+	 *     返回限制候选配置的任何排除项。
+	 * </p>
 	 * @param metadata the source metadata
 	 * @param attributes the {@link #getAttributes(AnnotationMetadata) annotation
 	 * attributes}
@@ -234,7 +243,12 @@ public class AutoConfigurationImportSelector
 		return excluded;
 	}
 
+	/**
+	 * 获得需要排除的自动配置属性列表
+	 * @return
+	 */
 	private List<String> getExcludeAutoConfigurationsProperty() {
+		//从环境中获得需要排除的的自动配置属性类别
 		if (getEnvironment() instanceof ConfigurableEnvironment) {
 			RelaxedPropertyResolver resolver = new RelaxedPropertyResolver(
 					this.environment, "spring.autoconfigure.");
@@ -259,6 +273,14 @@ public class AutoConfigurationImportSelector
 		return (Arrays.asList(exclude == null ? new String[0] : exclude));
 	}
 
+	/**
+	 *
+	 * 排序
+	 * @param configurations 能够自动配置的类，其实也就是一个ImportSelector
+	 * @param autoConfigurationMetadata 自动配置的类的元信息，加快分析
+	 * @return
+	 * @throws IOException
+	 */
 	private List<String> sort(List<String> configurations,
 			AutoConfigurationMetadata autoConfigurationMetadata) throws IOException {
 		configurations = new AutoConfigurationSorter(getMetadataReaderFactory(),
@@ -266,14 +288,23 @@ public class AutoConfigurationImportSelector
 		return configurations;
 	}
 
+	/**
+	 *
+	 * 进行过滤相关配置
+	 * @param configurations
+	 * @param autoConfigurationMetadata
+	 * @return
+	 */
 	private List<String> filter(List<String> configurations,
 			AutoConfigurationMetadata autoConfigurationMetadata) {
 		long startTime = System.nanoTime();
 		String[] candidates = configurations.toArray(new String[configurations.size()]);
-		boolean[] skip = new boolean[candidates.length];
+		boolean[] skip = new boolean[candidates.length]; //标记组，和配置的位置11对应
 		boolean skipped = false;
+		//加载AutoConfigurationImportFilter的实现
 		for (AutoConfigurationImportFilter filter : getAutoConfigurationImportFilters()) {
-			invokeAwareMethods(filter);
+			invokeAwareMethods(filter); //获得环境
+			//匹配
 			boolean[] match = filter.match(candidates, autoConfigurationMetadata);
 			for (int i = 0; i < match.length; i++) {
 				if (!match[i]) {
@@ -282,9 +313,11 @@ public class AutoConfigurationImportSelector
 				}
 			}
 		}
+		//不用跳过，直接返回，全部成功匹配的
 		if (!skipped) {
 			return configurations;
 		}
+		//skip[i] = true。就是需要跳过的选项
 		List<String> result = new ArrayList<String>(candidates.length);
 		for (int i = 0; i < candidates.length; i++) {
 			if (!skip[i]) {

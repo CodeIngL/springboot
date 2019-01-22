@@ -26,6 +26,9 @@ import org.springframework.util.StringUtils;
 
 /**
  * Generates relaxed name variations from a given source.
+ * <p>
+ *     从给定的源生成宽松的名称变体。
+ * </p>
  *
  * @author Phillip Webb
  * @author Dave Syer
@@ -62,7 +65,9 @@ public final class RelaxedNames implements Iterable<String> {
 		if (values.contains(name)) {
 			return;
 		}
+		//原名称，小写，大写全都来一遍
 		for (Variation variation : Variation.values()) {
+			//不变，-转换为_,_转换为.,.转换为_,驼峰转_全都来一遍，够灵活的
 			for (Manipulation manipulation : Manipulation.values()) {
 				String result = name;
 				result = manipulation.apply(result);

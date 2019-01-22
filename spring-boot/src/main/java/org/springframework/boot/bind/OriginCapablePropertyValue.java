@@ -22,6 +22,10 @@ import org.springframework.core.env.PropertySource;
 /**
  * A {@link PropertyValue} that can provide information about its origin.
  *
+ * <p>
+ *     一个PropertyValue，可以提供有关其来源的信息。
+ * </p>
+ *
  * @author Andy Wilkinson
  */
 class OriginCapablePropertyValue extends PropertyValue {

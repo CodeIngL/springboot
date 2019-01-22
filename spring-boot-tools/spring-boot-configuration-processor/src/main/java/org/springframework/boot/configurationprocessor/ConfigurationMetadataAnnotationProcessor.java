@@ -53,6 +53,10 @@ import org.springframework.boot.configurationprocessor.metadata.ItemMetadata;
  * Annotation {@link Processor} that writes meta-data file for
  * {@code @ConfigurationProperties}.
  *
+ * <p>
+ *     为{@code @ConfigurationProperties}写入元数据文件的注解处理器。
+ * </p>
+ *
  * @author Stephane Nicoll
  * @author Phillip Webb
  * @author Kris De Volder

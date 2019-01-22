@@ -55,6 +55,15 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
  * MVC on the classpath). Note that any endpoints having method signatures will break in a
  * non-servlet environment.
  *
+ * <p>
+ *    {@link HandlerMapping} 通过{@link Endpoint#getId()}将{@link Endpoint}映射到URL。
+ *    {@code @RequestMapping}的语义应该与普通的{@code @Controller}相同，但是端点不应该注解为{@code @Controller}（否则它们将被普通的MVC机制映射）。
+ * </p>
+ * <p>
+ *  映射的目标之一是支持作为HTTP端点的端点，但是当没有HTTP服务器（并且类路径上没有Spring MVC）时，仍然可以提供有用的服务接口。
+ *  请注意，具有方法签名的任何端点都将在非servlet环境中中断
+ * </p>
+ *
  * @param <E> The endpoint type
  * @author Phillip Webb
  * @author Christian Dupuis
@@ -114,8 +123,8 @@ public abstract class AbstractEndpointHandlerMapping<E extends MvcEndpoint>
 	@Override
 	public void afterPropertiesSet() {
 		super.afterPropertiesSet();
-		if (!this.disabled) {
-			for (MvcEndpoint endpoint : this.endpoints) {
+		if (!this.disabled) {//开启
+			for (MvcEndpoint endpoint : this.endpoints) { //检测所有的mvcEndpoint
 				detectHandlerMethods(endpoint);
 			}
 		}

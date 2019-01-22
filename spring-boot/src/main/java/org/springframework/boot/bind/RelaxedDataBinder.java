@@ -49,6 +49,9 @@ import org.springframework.validation.DataBinder;
  * Binder implementation that allows caller to bind to maps and also allows property names
  * to match a bit loosely (if underscores or dashes are removed and replaced with camel
  * case for example).
+ * <p>
+ *     Binder实现，允许调用者绑定到映射，并允许属性名称松散匹配（如果删除下划线或破折号并替换为驼峰的情况）
+ * </p>
  *
  * @author Dave Syer
  * @author Phillip Webb
@@ -133,33 +136,50 @@ public class RelaxedDataBinder extends DataBinder {
 	 * map keys. Also creates new maps for properties of map type that are null (assuming
 	 * all maps are potentially nested). The standard bracket {@code[...]} dereferencing
 	 * is also accepted.
+	 * <p>
+	 *     修改属性值，以便句点分隔的属性路径对映射键有效。 还为map类型的属性创建新的map（假设所有地图都可能嵌套）。 标准括号解除引用也被接受。
+	 * </p>
 	 * @param propertyValues the property values
 	 * @param target the target object
 	 * @return modified property values
 	 */
 	private MutablePropertyValues modifyProperties(MutablePropertyValues propertyValues,
 			Object target) {
+		//
 		propertyValues = getPropertyValuesForNamePrefix(propertyValues);
-		if (target instanceof MapHolder) {
+		if (target instanceof MapHolder) { //目标类是target
 			propertyValues = addMapPrefix(propertyValues);
 		}
-		BeanWrapper wrapper = new BeanWrapperImpl(target);
+
+		BeanWrapper wrapper = new BeanWrapperImpl(target);// 构建一个beanWrapper
 		wrapper.setConversionService(
-				new RelaxedConversionService(getConversionService()));
-		wrapper.setAutoGrowNestedPaths(true);
+				new RelaxedConversionService(getConversionService())); //设置一个转换器
+		wrapper.setAutoGrowNestedPaths(true); // 设置自动增长内嵌的路径
 		List<PropertyValue> sortedValues = new ArrayList<PropertyValue>();
 		Set<String> modifiedNames = new HashSet<String>();
+		//排序分明
 		List<String> sortedNames = getSortedPropertyNames(propertyValues);
 		for (String name : sortedNames) {
+			//获得属性值
 			PropertyValue propertyValue = propertyValues.getPropertyValue(name);
+			//简单的修改映射下
 			PropertyValue modifiedProperty = modifyProperty(wrapper, propertyValue);
+
+			//添加进名字
 			if (modifiedNames.add(modifiedProperty.getName())) {
+				//加入集合
 				sortedValues.add(modifiedProperty);
 			}
 		}
+		//返回一个多属性值
 		return new MutablePropertyValues(sortedValues);
 	}
 
+	/**
+	 * 排序属性值的值。短的前缀排在前面，长的在后面
+	 * @param propertyValues
+	 * @return
+	 */
 	private List<String> getSortedPropertyNames(MutablePropertyValues propertyValues) {
 		List<String> names = new LinkedList<String>();
 		for (PropertyValue propertyValue : propertyValues.getPropertyValueList()) {
@@ -192,6 +212,11 @@ public class RelaxedDataBinder extends DataBinder {
 		}
 	}
 
+	/**
+	 * 是map的话，还会添加相关的前缀
+	 * @param propertyValues
+	 * @return
+	 */
 	private MutablePropertyValues addMapPrefix(MutablePropertyValues propertyValues) {
 		MutablePropertyValues rtn = new MutablePropertyValues();
 		for (PropertyValue pv : propertyValues.getPropertyValues()) {
@@ -200,23 +225,37 @@ public class RelaxedDataBinder extends DataBinder {
 		return rtn;
 	}
 
+	/**
+	 * 通过前缀获得对应值
+	 * @param propertyValues
+	 * @return
+	 */
 	private MutablePropertyValues getPropertyValuesForNamePrefix(
 			MutablePropertyValues propertyValues) {
+		//如果没有前缀，直接返回，切忽略内嵌的属性值
 		if (!StringUtils.hasText(this.namePrefix) && !this.ignoreNestedProperties) {
 			return propertyValues;
 		}
+
+		//构建易变的属性值
 		MutablePropertyValues rtn = new MutablePropertyValues();
+		//遍历传递进来的属性值
 		for (PropertyValue value : propertyValues.getPropertyValues()) {
+			//获得名字
 			String name = value.getName();
+			//各种转换
 			for (String prefix : new RelaxedNames(stripLastDot(this.namePrefix))) {
 				for (String separator : new String[] { ".", "_" }) {
 					String candidate = (StringUtils.hasLength(prefix) ? prefix + separator
 							: prefix);
 					if (name.startsWith(candidate)) {
+						//把前缀给截取了
 						name = name.substring(candidate.length());
 						if (!(this.ignoreNestedProperties && name.contains("."))) {
+							//获得原始的
 							PropertyOrigin propertyOrigin = OriginCapablePropertyValue
 									.getOrigin(value);
+							//添加到返回的组合中，再次使可以获得原始源的属性值
 							rtn.addPropertyValue(new OriginCapablePropertyValue(name,
 									value.getValue(), propertyOrigin));
 						}
@@ -227,6 +266,11 @@ public class RelaxedDataBinder extends DataBinder {
 		return rtn;
 	}
 
+	/**
+	 * 去掉最后的dot
+	 * @param string
+	 * @return
+	 */
 	private String stripLastDot(String string) {
 		if (StringUtils.hasLength(string) && string.endsWith(".")) {
 			string = string.substring(0, string.length() - 1);
@@ -234,13 +278,21 @@ public class RelaxedDataBinder extends DataBinder {
 		return string;
 	}
 
+	/**
+	 * 修改值，并返回新的属性值
+	 * @param target
+	 * @param propertyValue
+	 * @return
+	 */
 	private PropertyValue modifyProperty(BeanWrapper target,
 			PropertyValue propertyValue) {
 		String name = propertyValue.getName();
-		String normalizedName = normalizePath(target, name);
+		String normalizedName = normalizePath(target, name);//格式化路径以便于beanwrapper可以识别
 		if (!normalizedName.equals(name)) {
+			//构建一个新的属性值
 			return new PropertyValue(normalizedName, propertyValue.getValue());
 		}
+		//一样的就直接返回
 		return propertyValue;
 	}
 
