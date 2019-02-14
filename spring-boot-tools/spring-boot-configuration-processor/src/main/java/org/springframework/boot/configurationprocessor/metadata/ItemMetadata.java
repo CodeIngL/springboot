@@ -19,6 +19,10 @@ package org.springframework.boot.configurationprocessor.metadata;
 /**
  * A group or property meta-data item from some {@link ConfigurationMetadata}.
  *
+ * <p>
+ *     某些{@link ConfigurationMetadata}中的组或属性元数据项。
+ * </p>
+ *
  * @author Stephane Nicoll
  * @author Phillip Webb
  * @since 1.2.0

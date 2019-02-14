@@ -57,6 +57,20 @@ import org.springframework.web.context.support.StandardServletEnvironment;
  * deploying it. If you prefer to run an embedded container then you won't need this at
  * all.
  *
+ * <p>
+ *     一个自以为是的{@link WebApplicationInitializer} ，用于从传统的WAR部署中运行{@link SpringApplication}。
+ *     将Servlet，Filter和ServletContextInitializer bean从应用程序上下文绑定到servlet容器。
+ * </p>
+ * <p>
+ * 配置应用程序要么覆盖{@link #configure(SpringApplicationBuilder)} 方法{@link SpringApplicationBuilder#sources(Object...)}) ，
+ * 要么将初始化程序本身设置为{@code @Configuration}。
+ * 如果将SpringBootServletInitializer与其他{@link WebApplicationInitializer WebApplicationInitializers}结合使用，
+ * 则可能还需要添加{@code @Ordered}注释以配置特定的启动顺序。
+ * </p>
+ * <p>
+ * 请注意，只有在构建war文件并进行部署时才需要WebApplicationInitializer。 如果您更喜欢运行嵌入式容器，那么根本不需要它。
+ * </p>
+ *
  * @author Dave Syer
  * @author Phillip Webb
  * @author Andy Wilkinson

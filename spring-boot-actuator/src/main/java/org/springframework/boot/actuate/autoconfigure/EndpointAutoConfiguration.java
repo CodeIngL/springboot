@@ -69,6 +69,9 @@ import org.springframework.web.servlet.handler.AbstractHandlerMethodMapping;
  * {@link EnableAutoConfiguration Auto-configuration} for common management
  * {@link Endpoint}s.
  *
+ * <p>
+ *     公共管理端点的自动配置。
+ * </p>
  * @author Dave Syer
  * @author Phillip Webb
  * @author Greg Turnquist

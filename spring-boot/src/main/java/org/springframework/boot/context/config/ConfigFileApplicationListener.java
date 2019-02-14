@@ -96,7 +96,8 @@ import org.springframework.validation.BindException;
  * ("spring.main.show_banner=false").
  *
  * <p>
- *     EnvironmentPostProcessor通过从众所周知的文件位置加载属性来配置上下文环境。默认情况下，属性将从以下位置的“application.properties”和/或“application.yml”文件中加载：
+ *     {@link EnvironmentPostProcessor} 通过从众所周知的文件位置加载属性来配置上下文环境。
+ *     默认情况下，属性将从以下位置的'application.properties'和/或'application.yml'文件中加载：
  * </p>
  * <ul>
  * <li>classpath:</li>
@@ -113,7 +114,9 @@ import org.springframework.validation.BindException;
  * <p>
  *     'spring.config.name'属性可用于指定要加载的替代名称，'spring.config.location'属性可用于指定替代搜索位置或特定文件。
  * </p>
- * <p>配置属性也绑定到SpringApplication。 这使得可以动态地设置SpringApplication属性，如源（“spring.main.sources” - 一个CSV列表）的标志来指示一个Web环境（“spring.main.web_environment = true”）或关闭的标志 横幅（“spring.main.show_banner = false”）。</p>
+ * <p>配置属性也绑定到{@link SpringApplication}。
+ * 这使得可以动态地设置SpringApplication属性，
+ * 如源（"spring.main.sources" - 一个CSV列表）的标志来指示一个Web环境（"spring.main.web_environment=true"）或关闭的标志 横幅（“spring.main.show_banner=false"）。</p>
  *
  * @author Dave Syer
  * @author Phillip Webb
@@ -193,6 +196,10 @@ public class ConfigFileApplicationListener
 		}
 	}
 
+	/**
+	 * 环境准备阶段
+	 * @param event
+	 */
 	private void onApplicationEnvironmentPreparedEvent(
 			ApplicationEnvironmentPreparedEvent event) {
 		List<EnvironmentPostProcessor> postProcessors = loadPostProcessors();
@@ -228,6 +235,10 @@ public class ConfigFileApplicationListener
 		}
 	}
 
+	/**
+	 * 应用准备阶段添加相关处理器
+	 * @param event
+	 */
 	private void onApplicationPreparedEvent(ApplicationEvent event) {
 		this.logger.replayTo(ConfigFileApplicationListener.class);
 		addPostProcessors(((ApplicationPreparedEvent) event).getApplicationContext());
@@ -368,6 +379,9 @@ public class ConfigFileApplicationListener
 					: resourceLoader;
 		}
 
+		/**
+		 * 加载
+		 */
 		public void load() {
 			this.propertiesLoader = new PropertySourcesLoader();
 			this.activatedProfiles = false;

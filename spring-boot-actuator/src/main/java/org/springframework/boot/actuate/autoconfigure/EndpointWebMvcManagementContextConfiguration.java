@@ -60,6 +60,9 @@ import org.springframework.web.cors.CorsConfiguration;
 
 /**
  * Configuration to expose {@link Endpoint} instances over Spring MVC.
+ * <p>
+ *     配置通过Spring MVC公开{@link Endpoint}实例。
+ * </p>
  *
  * @author Dave Syer
  * @author Ben Hale

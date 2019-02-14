@@ -34,6 +34,9 @@ import org.springframework.boot.configurationprocessor.metadata.JsonMarshaller;
 
 /**
  * A {@code MetadataStore} is responsible for the storage of metadata on the filesystem.
+ * <p>
+ *     {@code MetadataStore}负责在文件系统上存储元数据。
+ * </p>
  *
  * @author Andy Wilkinson
  * @since 1.2.2

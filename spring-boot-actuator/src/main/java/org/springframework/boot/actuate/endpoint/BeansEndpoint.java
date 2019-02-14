@@ -37,6 +37,12 @@ import org.springframework.util.Assert;
  * the JVM will be shown (and the corresponding MBeans will be registered per the standard
  * behavior of LiveBeansView). Otherwise only the current application context hierarchy.
  *
+ * <p>
+ *     公开Spring bean的JSON视图。 如果环境包含密钥设置LiveBeansView.MBEAN_DOMAIN_PROPERTY_NAME，
+ *     则将显示JVM中的所有应用程序上下文（并且将根据LiveBeansView的标准行为注册相应的MBean）。
+ *     否则只有当前的应用程序上下文层次
+ * </p>
+ *
  * @author Dave Syer
  * @author Andy Wilkinson
  */

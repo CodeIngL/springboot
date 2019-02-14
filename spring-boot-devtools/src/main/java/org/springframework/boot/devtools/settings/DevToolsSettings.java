@@ -47,8 +47,14 @@ public class DevToolsSettings {
 
 	private static DevToolsSettings settings;
 
+	/**
+	 * 包括的匹配
+	 */
 	private final List<Pattern> restartIncludePatterns = new ArrayList<Pattern>();
 
+	/**
+	 * 不包括的匹配
+	 */
 	private final List<Pattern> restartExcludePatterns = new ArrayList<Pattern>();
 
 	DevToolsSettings() {

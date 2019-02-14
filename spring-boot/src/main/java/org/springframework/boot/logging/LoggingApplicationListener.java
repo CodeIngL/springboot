@@ -70,7 +70,7 @@ import org.springframework.util.StringUtils;
  * </ul>
  *
  * <p>
- *     一个配置LoggingSystem的ApplicationListener。 如果环境包含logging.config属性，则将用于引导日志记录系统，否则将使用默认配置。 无论如何，如果环境包含logging.level。*条目，日志级别将被自定义。
+ *     一个配置{@link LoggingSystem}的{@link ApplicationListener}。 如果环境包含{@code logging.config}属性，则将用于引导日志记录系统，否则将使用默认配置。 无论如何，如果环境包含{@code logging.level.*} 条目，日志级别将被自定义。
  * </p>
  * <p>
  *     当环境包含未设置为“false”的调试或跟踪属性（即，如果您使用java -jar myapp.jar [--debug启动应用程序时），将启用对Spring，Tomcat，Jetty和Hibernate的调试和跟踪日志记录 | --trace]）。 如果你想忽略这些属性，你可以设置parseArgs为false。
@@ -242,12 +242,20 @@ public class LoggingApplicationListener implements GenericApplicationListener {
 		}
 	}
 
+	/**
+	 * 在开始阶段构建这个对象，用于后期注入到系统中
+	 * @param event
+	 */
 	private void onApplicationStartingEvent(ApplicationStartingEvent event) {
 		this.loggingSystem = LoggingSystem
 				.get(event.getSpringApplication().getClassLoader());
 		this.loggingSystem.beforeInitialize();
 	}
 
+	/**
+	 * 环境准备阶段正式开始处理
+	 * @param event
+	 */
 	private void onApplicationEnvironmentPreparedEvent(
 			ApplicationEnvironmentPreparedEvent event) {
 		if (this.loggingSystem == null) {
@@ -257,6 +265,10 @@ public class LoggingApplicationListener implements GenericApplicationListener {
 		initialize(event.getEnvironment(), event.getSpringApplication().getClassLoader());
 	}
 
+	/**
+	 * 在准备阶段，将相关的bean手动的注入到容器中
+	 * @param event
+	 */
 	private void onApplicationPreparedEvent(ApplicationPreparedEvent event) {
 		ConfigurableListableBeanFactory beanFactory = event.getApplicationContext()
 				.getBeanFactory();
@@ -280,6 +292,9 @@ public class LoggingApplicationListener implements GenericApplicationListener {
 	/**
 	 * Initialize the logging system according to preferences expressed through the
 	 * {@link Environment} and the classpath.
+	 *
+	 * <p>根据通过Environment和类路径表示的首选项初始化日志记录系统。
+	 * </p>
 	 * @param environment the environment
 	 * @param classLoader the classloader
 	 */
@@ -290,12 +305,17 @@ public class LoggingApplicationListener implements GenericApplicationListener {
 		if (logFile != null) {
 			logFile.applyToSystemProperties();
 		}
+		//初始化日志几倍
 		initializeEarlyLoggingLevel(environment);
 		initializeSystem(environment, this.loggingSystem, logFile);
 		initializeFinalLoggingLevels(environment, this.loggingSystem);
 		registerShutdownHookIfNecessary(environment, this.loggingSystem);
 	}
 
+	/**
+	 * 初始化日志解蔽
+	 * @param environment
+	 */
 	private void initializeEarlyLoggingLevel(ConfigurableEnvironment environment) {
 		if (this.parseArgs && this.springBootLogging == null) {
 			if (isSet(environment, "debug")) {

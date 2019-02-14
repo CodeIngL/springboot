@@ -69,9 +69,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
  * {@link BeanPostProcessor} to bind {@link PropertySources} to beans annotated with
  * {@link ConfigurationProperties}.
  *
- * <p>
- *     BeanPostProcessor将PropertySources绑定到使用ConfigurationProperties注解的bean。
- * </p>
+ * <p> {@link BeanPostProcessor}将{@link PropertySources}绑定到带有{@link ConfigurationProperties}注解的bean。</p>
  *
  * @author Dave Syer
  * @author Phillip Webb
@@ -206,7 +204,8 @@ public class ConfigurationPropertiesBindingPostProcessor implements BeanPostProc
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		if (this.propertySources == null) {//没有指定相应的属性源。那么我们从环境中推倒出相应的属性源。
+		if (this.propertySources == null) {
+			//没有指定相应的属性源。那么我们从环境中推倒出相应的属性源。
 			this.propertySources = deducePropertySources();
 		}
 		if (this.validator == null) {
@@ -242,6 +241,10 @@ public class ConfigurationPropertiesBindingPostProcessor implements BeanPostProc
 		}
 	}
 
+	/**
+	 * 推断出可能的属性源
+	 * @return
+	 */
 	private PropertySources deducePropertySources() {
 		//尝试去配置中获取相应放入配置，如果超过一个，我们退回从环境中或缺。
 		PropertySourcesPlaceholderConfigurer configurer = getSinglePropertySourcesPlaceholderConfigurer();
@@ -289,6 +292,7 @@ public class ConfigurationPropertiesBindingPostProcessor implements BeanPostProc
 	}
 
 	/**
+	 * @see 2.x this is different
 	 * 在初始化之前，标记过时，这里可能不是一个好的处理机会
 	 * @param bean
 	 * @param beanName
@@ -297,14 +301,12 @@ public class ConfigurationPropertiesBindingPostProcessor implements BeanPostProc
 	public Object postProcessBeforeInitialization(Object bean, String beanName)
 			throws BeansException {
 		//类上
-		ConfigurationProperties annotation = AnnotationUtils
-				.findAnnotation(bean.getClass(), ConfigurationProperties.class);
+		ConfigurationProperties annotation = AnnotationUtils.findAnnotation(bean.getClass(), ConfigurationProperties.class);
 		if (annotation != null) {
 			postProcessBeforeInitialization(bean, beanName, annotation);
 		}
 		//方法上
-		annotation = this.beans.findFactoryAnnotation(beanName,
-				ConfigurationProperties.class);
+		annotation = this.beans.findFactoryAnnotation(beanName, ConfigurationProperties.class);
 		if (annotation != null) {
 			postProcessBeforeInitialization(bean, beanName, annotation);
 		}
@@ -328,15 +330,14 @@ public class ConfigurationPropertiesBindingPostProcessor implements BeanPostProc
 	private void postProcessBeforeInitialization(Object bean, String beanName,
 			ConfigurationProperties annotation) {
 		Object target = bean; //目标实例
-		PropertiesConfigurationFactory<Object> factory = new PropertiesConfigurationFactory<Object>(
-				target); //构建
+
+		PropertiesConfigurationFactory<Object> factory = new PropertiesConfigurationFactory<Object>(target); //构建
 		factory.setPropertySources(this.propertySources); //设置属性源
 		factory.setValidator(determineValidator(bean)); //设置校验器
 		// If no explicit conversion service is provided we add one so that (at least)
 		// comma-separated arrays of convertibles can be bound automatically
 		// 如果没有提供显式转换服务，我们添加一个，以便（至少）逗号分隔的可转换数组可以自动绑定
-		factory.setConversionService(this.conversionService == null
-				? getDefaultConversionService() : this.conversionService); //设置转换服务
+		factory.setConversionService(this.conversionService == null ? getDefaultConversionService() : this.conversionService); //设置转换服务
 		if (annotation != null) {//不为空，需要进行处理
 			factory.setIgnoreInvalidFields(annotation.ignoreInvalidFields()); //设置相关信息，
 			factory.setIgnoreUnknownFields(annotation.ignoreUnknownFields());//设置
@@ -370,7 +371,7 @@ public class ConfigurationPropertiesBindingPostProcessor implements BeanPostProc
 	}
 
 	/**
-	 * 决定是否进行校验
+	 * 构建校验器
 	 * @param bean
 	 * @return
 	 */

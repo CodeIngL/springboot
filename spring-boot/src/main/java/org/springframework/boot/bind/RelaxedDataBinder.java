@@ -63,6 +63,9 @@ public class RelaxedDataBinder extends DataBinder {
 
 	private static final Object BLANK = new Object();
 
+	/**
+	 * 前缀
+	 */
 	private String namePrefix;
 
 	private boolean ignoreNestedProperties;
@@ -137,18 +140,18 @@ public class RelaxedDataBinder extends DataBinder {
 	 * all maps are potentially nested). The standard bracket {@code[...]} dereferencing
 	 * is also accepted.
 	 * <p>
-	 *     修改属性值，以便句点分隔的属性路径对映射键有效。 还为map类型的属性创建新的map（假设所有地图都可能嵌套）。 标准括号解除引用也被接受。
+	 *     修改属性值，以便句点分隔的属性路径对映射键有效。 还为map类型的属性创建新的map（假设所有地图都可能嵌套）。 标准{@code[...]}解除引用也被接受。
 	 * </p>
-	 * @param propertyValues the property values
-	 * @param target the target object
+	 * @param propertyValues the property values 属性值
+	 * @param target the target object 目标对象
 	 * @return modified property values
 	 */
 	private MutablePropertyValues modifyProperties(MutablePropertyValues propertyValues,
 			Object target) {
-		//
-		propertyValues = getPropertyValuesForNamePrefix(propertyValues);
-		if (target instanceof MapHolder) { //目标类是target
-			propertyValues = addMapPrefix(propertyValues);
+
+		propertyValues = getPropertyValuesForNamePrefix(propertyValues);//
+		if (target instanceof MapHolder) { //目标类是MapHolder
+			propertyValues = addMapPrefix(propertyValues); //添加相关的map前缀
 		}
 
 		BeanWrapper wrapper = new BeanWrapperImpl(target);// 构建一个beanWrapper

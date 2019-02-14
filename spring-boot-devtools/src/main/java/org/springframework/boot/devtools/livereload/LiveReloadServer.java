@@ -208,6 +208,9 @@ public class LiveReloadServer {
 
 	/**
 	 * Trigger livereload of all connected clients.
+	 * <p>
+	 *     触发livereload， 对于所有的连接的对象来说
+	 * </p>
 	 */
 	public void triggerReload() {
 		synchronized (this.monitor) {

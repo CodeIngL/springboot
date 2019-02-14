@@ -24,6 +24,10 @@ import org.springframework.context.ConfigurableApplicationContext;
 /**
  * Support for a 'restart' {@link Scope} that allows beans to remain between restarts.
  *
+ * <p>
+ *     支持'restart'允许bean在重启之间保留的{@link Scope}。
+ * </p>
+ *
  * @author Phillip Webb
  * @since 1.3.0
  */

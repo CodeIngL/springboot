@@ -22,6 +22,10 @@ import org.springframework.util.ObjectUtils;
 /**
  * Immutable class that represents the configuration of a {@link LoggingSystem}'s logger.
  *
+ * <p>
+ *     不可变类，表示{@link LoggingSystem}的记录器的配置。
+ * </p>
+ *
  * @author Ben Hale
  * @since 1.5.0
  */

@@ -45,6 +45,8 @@ import org.springframework.util.StringUtils;
 /**
  * {@link EnableAutoConfiguration Auto-configuration} for local development support.
  *
+ *  <p>自动配置的本地化支持</p>
+ *
  * @author Phillip Webb
  * @author Andy Wilkinson
  * @author Vladimir Tsanev

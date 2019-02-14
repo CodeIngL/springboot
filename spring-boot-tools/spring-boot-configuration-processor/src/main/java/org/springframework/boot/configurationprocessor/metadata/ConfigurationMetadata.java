@@ -28,6 +28,9 @@ import java.util.Set;
 
 /**
  * Configuration meta-data.
+ * <p>
+ *     配置类的元数据
+ * </p>
  *
  * @author Stephane Nicoll
  * @author Phillip Webb

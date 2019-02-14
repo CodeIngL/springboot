@@ -35,6 +35,8 @@ import org.springframework.core.env.PropertySource;
  * {@link EnvironmentPostProcessor} to add properties that make sense when working at
  * development time.
  *
+ * <P>{@link EnvironmentPostProcessor}用于添加在开发时工作时有意义的属性。</P>
+ *
  * @author Phillip Webb
  * @author Andy Wilkinson
  * @since 1.3.0
@@ -44,6 +46,12 @@ public class DevToolsPropertyDefaultsPostProcessor implements EnvironmentPostPro
 
 	private static final Map<String, Object> PROPERTIES;
 
+
+	/**
+	 * devtool的关键就是，帮助用户在开发时排查相应的问题，
+	 * 也就是说，需要禁用一些可能会造成问题的现象，或者暴露一些现象，
+	 * 因此这里禁用很多关于缓存相关的配置
+	 */
 	static {
 		Map<String, Object> devToolsProperties = new HashMap<String, Object>();
 		devToolsProperties.put("spring.thymeleaf.cache", "false");
@@ -64,9 +72,12 @@ public class DevToolsPropertyDefaultsPostProcessor implements EnvironmentPostPro
 	@Override
 	public void postProcessEnvironment(ConfigurableEnvironment environment,
 			SpringApplication application) {
+		//开启的另一个条件吗是本地的环境，并且有着相关的支持
 		if (isLocalApplication(environment) && canAddProperties(environment)) {
+			//添加对应的属性源
 			PropertySource<?> propertySource = new MapPropertySource("refresh",
 					PROPERTIES);
+			//加入到环境中去。
 			environment.getPropertySources().addLast(propertySource);
 		}
 	}

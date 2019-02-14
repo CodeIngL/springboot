@@ -42,6 +42,17 @@ import org.springframework.core.io.ClassPathResource;
  * developed application. The remote URL of the application should be provided as a
  * non-option argument.
  *
+ * <p>
+ *     可用于建立远程运行Spring Boot代码的链接的应用程序。
+ *     允许远程调试和远程更新（如果已启用）。
+ * </p>
+ * <p>
+ *    此类应从IDE中启动，并且应具有与本地开发的应用程序相同的类路径配置。
+ * </p>
+ * <p>
+ *     应将应用程序的远程URL作为非选项参数提供。
+ * </p>
+ *
  * @author Phillip Webb
  * @since 1.3.0
  * @see RemoteClientConfiguration

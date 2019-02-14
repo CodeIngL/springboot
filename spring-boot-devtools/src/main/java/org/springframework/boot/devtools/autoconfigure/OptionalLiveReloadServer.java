@@ -27,6 +27,10 @@ import org.springframework.boot.devtools.livereload.LiveReloadServer;
  * Manages an optional {@link LiveReloadServer}. The {@link LiveReloadServer} may
  * gracefully fail to start (e.g. because of a port conflict) or may be omitted entirely.
  *
+ * <p>
+ *     管理可选的{@link LiveReloadServer}。 {@link LiveReloadServer} 可能正常无法启动（例如，由于端口冲突）或可能完全省略
+ * </p>
+ *
  * @author Phillip Webb
  * @since 1.3.0
  */
@@ -46,6 +50,7 @@ public class OptionalLiveReloadServer {
 
 	/**
 	 * {@link PostConstruct} method to start the server if possible.
+	 * 使用PostConstruct来开启liveLoader来实现前端文件更新的热加载
 	 * @throws Exception in case of errors
 	 */
 	@PostConstruct

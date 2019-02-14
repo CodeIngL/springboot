@@ -73,14 +73,29 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 public abstract class AbstractEndpointHandlerMapping<E extends MvcEndpoint>
 		extends RequestMappingHandlerMapping {
 
+	/**
+	 * 持有的所有的endpoint
+	 */
 	private final Set<E> endpoints;
 
+	/**
+	 * 安全拦截器，策略
+	 */
 	private HandlerInterceptor securityInterceptor;
 
+	/**
+	 * 跨域相关的配置
+	 */
 	private final CorsConfiguration corsConfiguration;
 
+	/**
+	 * 前缀
+	 */
 	private String prefix = "";
 
+	/**
+	 * 是否禁用
+	 */
 	private boolean disabled = false;
 
 	/**

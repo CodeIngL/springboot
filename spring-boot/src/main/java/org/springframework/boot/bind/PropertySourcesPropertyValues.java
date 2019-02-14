@@ -38,6 +38,9 @@ import org.springframework.validation.DataBinder;
  * the two abstractions and allowing (for instance) a regular {@link DataBinder} to be
  * used with the latter.
  *
+ * <p>由{@link PropertySources}支持的{@link PropertyValues}实现，
+ * 桥接两个抽象并允许（例如）常规{@link DataBinder}与后者一起使用</p>
+ *
  * @author Dave Syer
  * @author Phillip Webb
  */
@@ -98,22 +101,23 @@ public class PropertySourcesPropertyValues implements PropertyValues {
 	 * Create a new PropertyValues from the given PropertySources.
 	 * @param propertySources a PropertySources instance
 	 * @param nonEnumerableFallbackNames the property names to try in lieu of an
-	 * {@link EnumerablePropertySource}.
-	 * @param includes the property name patterns to include
-	 * @param resolvePlaceholders flag to indicate the placeholders should be resolved
+	 * {@link EnumerablePropertySource}. 要使用的属性名称尝试代替Enumerable PropertySource
+	 * @param includes the property name patterns to include  属性名模式
+	 * @param resolvePlaceholders flag to indicate the placeholders should be resolved 声明占位符应该被被解析
 	 */
 	PropertySourcesPropertyValues(PropertySources propertySources,
 			Collection<String> nonEnumerableFallbackNames,
 			PropertyNamePatternsMatcher includes, boolean resolvePlaceholders) {
 		Assert.notNull(propertySources, "PropertySources must not be null");
 		Assert.notNull(includes, "Includes must not be null");
-		this.propertySources = propertySources;
+		this.propertySources = propertySources; //属性源
 		this.nonEnumerableFallbackNames = nonEnumerableFallbackNames;
 		this.includes = includes;
 		this.resolvePlaceholders = resolvePlaceholders;
 		//构建属性源解析器
 		PropertySourcesPropertyResolver resolver = new PropertySourcesPropertyResolver(
 				propertySources);
+		//处理属性源
 		for (PropertySource<?> source : propertySources) {
 			processPropertySource(source, resolver);
 		}

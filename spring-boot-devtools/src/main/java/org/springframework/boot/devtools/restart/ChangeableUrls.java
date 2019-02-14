@@ -39,6 +39,8 @@ import org.springframework.util.StringUtils;
 /**
  * A filtered collection of URLs which can change after the application has started.
  *
+ * <p>过滤后的URL集合，可在应用程序启动后更改</p>
+ *
  * @author Phillip Webb
  * @author Andy Wilkinson
  */
@@ -46,9 +48,13 @@ final class ChangeableUrls implements Iterable<URL> {
 
 	private static final Log logger = LogFactory.getLog(ChangeableUrls.class);
 
+	/**
+	 * 可以改变的url进行reloader
+	 */
 	private final List<URL> urls;
 
 	private ChangeableUrls(URL... urls) {
+		//获得开发者工具的设置属性
 		DevToolsSettings settings = DevToolsSettings.get();
 		List<URL> reloadableUrls = new ArrayList<URL>(urls.length);
 		for (URL url : urls) {
@@ -89,6 +95,12 @@ final class ChangeableUrls implements Iterable<URL> {
 		return this.urls.toString();
 	}
 
+	/**
+	 *
+	 * 从类加载器中获得相关的url
+	 * @param classLoader
+	 * @return
+	 */
 	public static ChangeableUrls fromUrlClassLoader(URLClassLoader classLoader) {
 		List<URL> urls = new ArrayList<URL>();
 		for (URL url : classLoader.getURLs()) {
@@ -98,6 +110,12 @@ final class ChangeableUrls implements Iterable<URL> {
 		return fromUrls(urls);
 	}
 
+	/**
+	 * 首先直接构建jarFile的形式进行获得
+	 * 其次使用读取相关的配置信息获得
+	 * @param url
+	 * @return
+	 */
 	private static List<URL> getUrlsFromClassPathOfJarManifestIfPossible(URL url) {
 		JarFile jarFile = getJarFileIfPossible(url);
 		if (jarFile == null) {
@@ -126,6 +144,14 @@ final class ChangeableUrls implements Iterable<URL> {
 		return null;
 	}
 
+	/**
+	 *
+	 * 从java的清单文件中获得相关的属性的设置。
+	 * @param jarUrl
+	 * @param jarFile
+	 * @return
+	 * @throws IOException
+	 */
 	private static List<URL> getUrlsFromManifestClassPathAttribute(URL jarUrl,
 			JarFile jarFile) throws IOException {
 		Manifest manifest = jarFile.getManifest();

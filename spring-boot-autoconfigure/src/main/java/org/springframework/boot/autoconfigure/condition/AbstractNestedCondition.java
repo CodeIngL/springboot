@@ -39,6 +39,10 @@ import org.springframework.util.MultiValueMap;
 /**
  * Abstract base class for nested conditions.
  *
+ * <p>
+ *     嵌套条件的抽象基类。
+ * </p>
+ *
  * @author Phillip Webb
  */
 abstract class AbstractNestedCondition extends SpringBootCondition

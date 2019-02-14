@@ -40,6 +40,14 @@ public class DevToolsHomePropertiesPostProcessor implements EnvironmentPostProce
 
 	private static final String FILE_NAME = ".spring-boot-devtools.properties";
 
+	/**
+	 *
+	 * 处理环境，添加devtools相关的属性处理以及配置
+	 *
+	 * 配置文件最高的优先级，位于的用户目录下的{@see #FILE_NAME}
+	 * @param environment the environment to post-process
+	 * @param application the application to which the environment belongs
+	 */
 	@Override
 	public void postProcessEnvironment(ConfigurableEnvironment environment,
 			SpringApplication application) {
@@ -50,6 +58,7 @@ public class DevToolsHomePropertiesPostProcessor implements EnvironmentPostProce
 			Properties properties;
 			try {
 				properties = PropertiesLoaderUtils.loadProperties(resource);
+				//添加到属性源最前面，使得优先级位于最高的位置上
 				environment.getPropertySources().addFirst(
 						new PropertiesPropertySource("devtools-local", properties));
 			}

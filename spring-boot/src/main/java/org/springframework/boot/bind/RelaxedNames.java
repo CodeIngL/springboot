@@ -61,6 +61,10 @@ public final class RelaxedNames implements Iterable<String> {
 		return this.values.iterator();
 	}
 
+	/**
+	 * @param name
+	 * @param values
+	 */
 	private void initialize(String name, Set<String> values) {
 		if (values.contains(name)) {
 			return;

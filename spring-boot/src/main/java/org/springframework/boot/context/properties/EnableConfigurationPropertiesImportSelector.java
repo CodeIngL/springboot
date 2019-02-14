@@ -67,8 +67,7 @@ class EnableConfigurationPropertiesImportSelector implements ImportSelector {
 				: (Object[]) attributes.getFirst("value");
 		if (type == null || type.length == 0) {
 			return new String[] {
-					ConfigurationPropertiesBindingPostProcessorRegistrar.class
-							.getName() };
+					ConfigurationPropertiesBindingPostProcessorRegistrar.class.getName() };
 		}
 		return new String[] { ConfigurationPropertiesBeanRegistrar.class.getName(),
 				ConfigurationPropertiesBindingPostProcessorRegistrar.class.getName() };
@@ -77,7 +76,7 @@ class EnableConfigurationPropertiesImportSelector implements ImportSelector {
 	/**
 	 * {@link ImportBeanDefinitionRegistrar} for configuration properties support.
 	 * <p>
-	 *     ImportBeanDefinitionRegistrar用于配置属性支持。
+	 *     ImportBeanDefinitionRegistrar用于configuration properties支持。
 	 * </p>
 	 */
 	public static class ConfigurationPropertiesBeanRegistrar
@@ -91,9 +90,12 @@ class EnableConfigurationPropertiesImportSelector implements ImportSelector {
 							EnableConfigurationProperties.class.getName(), false);
 			List<Class<?>> types = collectClasses(attributes.get("value"));
 			for (Class<?> type : types) {
+				//获得前缀
 				String prefix = extractPrefix(type);
+				//名字为前缀-类型名字或者名字
 				String name = (StringUtils.hasText(prefix) ? prefix + "-" + type.getName()
 						: type.getName());
+				//没有则注册
 				if (!registry.containsBeanDefinition(name)) {
 					registerBeanDefinition(registry, type, name);
 				}

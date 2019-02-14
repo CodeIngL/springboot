@@ -22,6 +22,10 @@ import java.util.Arrays;
 /**
  * {@link UncaughtExceptionHandler} decorator that allows a thread to exit silently.
  *
+ * <p>
+ *     允许程序以平静的状态结束这个线程
+ * </p>
+ *
  * @author Phillip Webb
  * @author Andy Wilkinson
  */
@@ -33,6 +37,12 @@ class SilentExitExceptionHandler implements UncaughtExceptionHandler {
 		this.delegate = delegate;
 	}
 
+	/**
+	 *
+	 * 当线程抛出异常时的处理方案
+	 * @param thread
+	 * @param exception
+	 */
 	@Override
 	public void uncaughtException(Thread thread, Throwable exception) {
 		if (exception instanceof SilentExitException) {
@@ -42,10 +52,17 @@ class SilentExitExceptionHandler implements UncaughtExceptionHandler {
 			return;
 		}
 		if (this.delegate != null) {
+			//由委托者进行处理
 			this.delegate.uncaughtException(thread, exception);
 		}
 	}
 
+	/**
+	 * 是否是jvm结束了
+	 * 只要遍历所用的线程，存在活跃的非结束的非守护线程就ok
+	 * @param exceptionThread
+	 * @return
+	 */
 	private boolean isJvmExiting(Thread exceptionThread) {
 		for (Thread thread : getAllThreads()) {
 			if (thread != exceptionThread && thread.isAlive() && !thread.isDaemon()) {
@@ -55,6 +72,10 @@ class SilentExitExceptionHandler implements UncaughtExceptionHandler {
 		return true;
 	}
 
+	/**
+	 * 获得当前的所有的线程
+	 * @return
+	 */
 	protected Thread[] getAllThreads() {
 		ThreadGroup rootThreadGroup = getRootThreadGroup();
 		Thread[] threads = new Thread[32];
@@ -66,6 +87,10 @@ class SilentExitExceptionHandler implements UncaughtExceptionHandler {
 		return Arrays.copyOf(threads, count);
 	}
 
+	/**
+	 * 向上找到所有的线程组
+	 * @return
+	 */
 	private ThreadGroup getRootThreadGroup() {
 		ThreadGroup candidate = Thread.currentThread().getThreadGroup();
 		while (candidate.getParent() != null) {
@@ -74,10 +99,17 @@ class SilentExitExceptionHandler implements UncaughtExceptionHandler {
 		return candidate;
 	}
 
+	/**
+	 * 正式的结束
+	 */
 	protected void preventNonZeroExitCode() {
 		System.exit(0);
 	}
 
+	/**
+	 * 为线程设置UncaughException
+	 * @param thread
+	 */
 	public static void setup(Thread thread) {
 		UncaughtExceptionHandler handler = thread.getUncaughtExceptionHandler();
 		if (!(handler instanceof SilentExitExceptionHandler)) {
@@ -86,10 +118,16 @@ class SilentExitExceptionHandler implements UncaughtExceptionHandler {
 		}
 	}
 
+	/**
+	 * 结束当前的线程
+	 */
 	public static void exitCurrentThread() {
 		throw new SilentExitException();
 	}
 
+	/**
+	 * 一个特殊的异常，用于平静的退出整个线程。
+	 */
 	private static class SilentExitException extends RuntimeException {
 
 	}

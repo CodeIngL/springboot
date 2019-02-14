@@ -31,6 +31,16 @@ import java.util.Map;
  * a case, the hint should be suffixed by ".keys" or ".values" respectively. Creating a
  * hint for a map using its property name is therefore invalid.
  *
+ * <p>
+ *     提供ItemMetadata的提示。 将特定项的可能值列表定义为ItemHint.ValueHint实例。
+ * </p>
+ * <p>
+ *     提示的名称是相关属性的名称，地图类型有一个主要例外，因为地图的键和值都可以有提示。
+ * </p>
+ * <p>
+ *     在这种情况下，提示应分别以“.keys”或“.values”为后缀。 因此，使用其属性名称为地图创建提示无效。
+ * </p>
+ *
  * @author Stephane Nicoll
  * @since 1.3.0
  */

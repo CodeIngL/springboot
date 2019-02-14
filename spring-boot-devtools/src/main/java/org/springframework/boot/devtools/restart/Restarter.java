@@ -73,6 +73,10 @@ import org.springframework.util.ReflectionUtils;
  * automatically detect URLs that can change. It's also possible to manually configure
  * URLs or class file updates for remote restart scenarios.
  *
+ * <p></p>
+ * <p></p>
+ * <p></p>
+ * <p></p>
  * @author Phillip Webb
  * @author Andy Wilkinson
  * @since 1.3.0
@@ -123,10 +127,10 @@ public class Restarter {
 
 	/**
 	 * Internal constructor to create a new {@link Restarter} instance.
-	 * @param thread the source thread
-	 * @param args the application arguments
-	 * @param forceReferenceCleanup if soft/weak reference cleanup should be forced
-	 * @param initializer the restart initializer
+	 * @param thread the source thread 构建starter的线程
+	 * @param args the application arguments 应用参数
+	 * @param forceReferenceCleanup if soft/weak reference cleanup should be forced  强制清楚是否
+	 * @param initializer the restart initializer  重启初始器
 	 * @see #initialize(String[])
 	 */
 	protected Restarter(Thread thread, String[] args, boolean forceReferenceCleanup,
@@ -154,11 +158,15 @@ public class Restarter {
 		}
 	}
 
+	/**
+	 * 初始
+	 * @param restartOnInitialize 是否已经有热加载的javaagent
+	 */
 	protected void initialize(boolean restartOnInitialize) {
 		preInitializeLeakyClasses();
 		if (this.initialUrls != null) {
 			this.urls.addAll(Arrays.asList(this.initialUrls));
-			if (restartOnInitialize) {
+			if (restartOnInitialize) { //已经存在需要理解重启appplication
 				this.logger.debug("Immediately restarting application");
 				immediateRestart();
 			}
@@ -283,15 +291,20 @@ public class Restarter {
 
 	private Throwable doStart() throws Exception {
 		Assert.notNull(this.mainClassName, "Unable to find the main class to restart");
+		//获得作为父加载器的类加载器
 		ClassLoader parent = this.applicationClassLoader;
+		//获得相关的url
 		URL[] urls = this.urls.toArray(new URL[this.urls.size()]);
+		//构建相关的File
 		ClassLoaderFiles updatedFiles = new ClassLoaderFiles(this.classLoaderFiles);
+		//构建支持restart的classLoader
 		ClassLoader classLoader = new RestartClassLoader(parent, urls, updatedFiles,
 				this.logger);
 		if (this.logger.isDebugEnabled()) {
 			this.logger.debug("Starting application " + this.mainClassName + " with URLs "
 					+ Arrays.asList(urls));
 		}
+		//进行重启
 		return relaunch(classLoader);
 	}
 
@@ -531,9 +544,16 @@ public class Restarter {
 	 * {@link RestartApplicationListener} but can also be called directly if main
 	 * application arguments are not the same as those passed to the
 	 * {@link SpringApplication}.
+	 *
+	 * <P>
+	 *     初始化当前应用程序的重新启动支持。
+	 * </P>
+	 * <p>
+	 *     由{@link RestartApplicationListener} 自动调用，但如果主应用程序参数与传递给{@link SpringApplication}的参数不同，也可以直接调用
+	 * </p>
 	 * @param args main application arguments
 	 * @param forceReferenceCleanup if forcing of soft/weak reference should happen on
-	 * each restart. This will slow down restarts and is intended primarily for testing
+	 * each restart. This will slow down restarts and is intended primarily for testing 如果在每次重启时强制执行软/弱引用。 这将减慢重启速度，主要用于测试
 	 * @param initializer the restart initializer
 	 * @param restartOnInitialize if the restarter should be restarted immediately when
 	 * the {@link RestartInitializer} returns non {@code null} results

@@ -124,10 +124,28 @@ public class ConfigurationMetadataAnnotationProcessor extends AbstractProcessor 
 		}
 	}
 
+	/**
+	 *
+	 * <p>
+	 *     AbstractProcessor在源自前一轮的类型元素上处理一组注释类型，并返回此处理器是否声明这些注释类型。
+	 * </p>
+	 * <p>
+	 *     如果返回true，则声明注释类型，并且不会要求后续处理器处理它们;
+	 *     如果返回false，则注释类型无人认领，并且可能要求后续处理器处理它们。 处理器可以始终返回相同的布尔值，或者可以基于所选择的标准改变结果。
+	 * </p>
+	 * <p>
+	 *     如果处理器支持“*”并且根元素没有注释，则输入集将为空。 处理器必须优雅地处理一组空注释
+	 * </p>
+	 * @param annotations
+	 * @param roundEnv
+	 * @return
+	 */
 	@Override
 	public boolean process(Set<? extends TypeElement> annotations,
 			RoundEnvironment roundEnv) {
+		//收集齐进行处理
 		this.metadataCollector.processing(roundEnv);
+		//
 		Elements elementUtils = this.processingEnv.getElementUtils();
 		TypeElement annotationType = elementUtils
 				.getTypeElement(configurationPropertiesAnnotation());

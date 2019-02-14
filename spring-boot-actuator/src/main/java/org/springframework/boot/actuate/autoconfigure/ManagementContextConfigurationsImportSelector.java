@@ -37,6 +37,13 @@ import org.springframework.core.type.classreading.SimpleMetadataReaderFactory;
  * {@code org.springframework.boot.actuate.autoconfigure.ManagementContextConfiguration}
  * key.
  *
+ * <p>
+ *     选择管理上下文配置的配置类。
+ * </p>
+ * <p>
+ *     条目从{@code org.springframework.boot.actuate.autoconfigure.ManagementContextConfiguration}键下的{@code /META-INF/spring.factories} 加载。
+ * </p>
+ *
  * @author Dave Syer
  * @author Phillip Webb
  * @author Andy Wilkinson

@@ -27,6 +27,10 @@ import java.util.Set;
  * standard "main" method. Skips initialization when running "fat" jars (included
  * exploded) or when running from a test.
  *
+ * <p>
+ *     默认的RestartInitializer，仅在运行标准“main”方法时启用初始重启。 运行“fat”jars（包括exploded）或从测试运行时跳过初始化
+ * </p>
+ *
  * @author Phillip Webb
  * @author Andy Wilkinson
  * @since 1.3.0
@@ -40,6 +44,7 @@ public class DefaultRestartInitializer implements RestartInitializer {
 		skipped.add("org.junit.runners.");
 		skipped.add("org.springframework.boot.test.");
 		skipped.add("cucumber.runtime.");
+		//跳过的参数信息
 		SKIPPED_STACK_ELEMENTS = Collections.unmodifiableSet(skipped);
 	}
 

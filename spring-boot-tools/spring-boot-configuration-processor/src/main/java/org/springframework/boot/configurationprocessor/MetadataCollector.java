@@ -33,6 +33,7 @@ import org.springframework.boot.configurationprocessor.metadata.ItemMetadata;
  * Used by {@link ConfigurationMetadataAnnotationProcessor} to collect
  * {@link ConfigurationMetadata}.
  *
+ * <p>用于收集相关的配置类元信息</p>
  * @author Andy Wilkinson
  * @author Kris De Volder
  * @since 1.2.2

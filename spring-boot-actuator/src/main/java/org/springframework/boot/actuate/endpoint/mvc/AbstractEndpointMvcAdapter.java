@@ -23,6 +23,10 @@ import org.springframework.util.Assert;
 /**
  * Abstract base class for {@link MvcEndpoint} implementations.
  *
+ * <p>
+ *     MvcEndpoint实现的抽象基类。
+ * </p>
+ *
  * @param <E> The delegate endpoint
  * @author Dave Syer
  * @author Andy Wilkinson

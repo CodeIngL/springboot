@@ -48,6 +48,9 @@ import org.springframework.validation.Validator;
  * them to an object of a specified type and then optionally running a {@link Validator}
  * over it.
  *
+ * <p>通过将一些{@link Properties}
+ * （或可选的{@link PropertySources}）绑定到指定类型的对象，然后可选地在其上运行{@link Validator}来验证它们。</p>
+ *
  * @param <T> the target type
  * @author Dave Syer
  */
@@ -234,12 +237,10 @@ public class PropertiesConfigurationFactory<T>
 	 * @throws BindException
 	 */
 	public void bindPropertiesToTarget() throws BindException {
-		//确定属性源不会为空
-		Assert.state(this.propertySources != null, "PropertySources should not be null");
+		Assert.state(this.propertySources != null, "PropertySources should not be null");//确定属性源不会为空
 		try {
 			if (logger.isTraceEnabled()) {
 				logger.trace("Property Sources: " + this.propertySources);
-
 			}
 			//设计标记
 			this.hasBeenBound = true;
@@ -249,8 +250,7 @@ public class PropertiesConfigurationFactory<T>
 			if (this.exceptionIfInvalid) {
 				throw ex;
 			}
-			PropertiesConfigurationFactory.logger
-					.error("Failed to load Properties validation bean. "
+			PropertiesConfigurationFactory.logger.error("Failed to load Properties validation bean. "
 							+ "Your Properties may be invalid.", ex);
 		}
 	}
@@ -295,6 +295,10 @@ public class PropertiesConfigurationFactory<T>
 		checkForBindingErrors(dataBinder);
 	}
 
+	/**
+	 * 对targetName进行转换，使得更加的灵活
+	 * @return
+	 */
 	private Iterable<String> getRelaxedTargetNames() {
 		return (this.target != null && StringUtils.hasLength(this.targetName)
 				? new RelaxedNames(this.targetName) : null);
@@ -315,7 +319,7 @@ public class PropertiesConfigurationFactory<T>
 			for (PropertyDescriptor descriptor : descriptors) {
 				String name = descriptor.getName();
 				if (!name.equals("class")) {//不是class 说明是正常的
-					//大写转换为-
+					//大写转换为-加小写
 					RelaxedNames relaxedNames = RelaxedNames.forCamelCase(name);
 					if (prefixes == null) {//前缀为空加入集合中
 						for (String relaxedName : relaxedNames) {
@@ -338,9 +342,9 @@ public class PropertiesConfigurationFactory<T>
 
 	/**
 	 *
-	 * 获得属性源
-	 * @param names
-	 * @param relaxedTargetNames
+	 * 根据名字集合，获得属性源
+	 * @param names 实际的名字
+	 * @param relaxedTargetNames 前缀
 	 * @return
 	 */
 	private PropertyValues getPropertySourcesPropertyValues(Set<String> names,

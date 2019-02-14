@@ -27,6 +27,10 @@ import org.springframework.core.Ordered;
 /**
  * {@link ApplicationListener} to initialize the {@link Restarter}.
  *
+ * <p>
+ *     ApplicationListener初始化Restarter
+ * </p>
+ *
  * @author Phillip Webb
  * @author Andy Wilkinson
  * @since 1.3.0
@@ -42,31 +46,42 @@ public class RestartApplicationListener
 	@Override
 	public void onApplicationEvent(ApplicationEvent event) {
 		if (event instanceof ApplicationStartingEvent) {
+			//开始事件
 			onApplicationStartingEvent((ApplicationStartingEvent) event);
 		}
 		if (event instanceof ApplicationPreparedEvent) {
+			//准备事件
 			onApplicationPreparedEvent((ApplicationPreparedEvent) event);
 		}
 		if (event instanceof ApplicationReadyEvent
 				|| event instanceof ApplicationFailedEvent) {
+			//完成事件
 			Restarter.getInstance().finish();
 		}
 		if (event instanceof ApplicationFailedEvent) {
+			//失败事件
 			onApplicationFailedEvent((ApplicationFailedEvent) event);
 		}
 	}
 
+	/**
+	 * 任务开始的事件
+	 * @param event
+	 */
 	private void onApplicationStartingEvent(ApplicationStartingEvent event) {
 		// It's too early to use the Spring environment but we should still allow
 		// users to disable restart using a System property.
+		// 现在使用Spring环境还为时过早，但我们仍然应该允许用户使用System属性禁用重启。
 		String enabled = System.getProperty(ENABLED_PROPERTY);
-		if (enabled == null || Boolean.parseBoolean(enabled)) {
-			String[] args = event.getArgs();
+		//禁用重启
+		if (enabled == null || Boolean.parseBoolean(enabled)) { // 开启
+			String[] args = event.getArgs();//事件参数
 			DefaultRestartInitializer initializer = new DefaultRestartInitializer();
 			boolean restartOnInitialize = !AgentReloader.isActive();
 			Restarter.initialize(args, false, initializer, restartOnInitialize);
 		}
 		else {
+			//被禁用
 			Restarter.disable();
 		}
 	}

@@ -69,6 +69,9 @@ public @interface ConfigurationProperties {
 	/**
 	 * Flag to indicate that when binding to this object fields with periods in their
 	 * names should be ignored.
+	 * <p>
+	 *     标记表示绑定到此对象时，应忽略其名称中包含句点的字段。
+	 * </p>
 	 * @return the flag value (default false)
 	 */
 	boolean ignoreNestedProperties() default false;

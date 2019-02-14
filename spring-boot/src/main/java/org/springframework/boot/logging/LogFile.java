@@ -107,6 +107,10 @@ public class LogFile {
 
 	/**
 	 * Get a {@link LogFile} from the given Spring {@link Environment}.
+	 *
+	 * <p>
+	 *     从给定的Spring环境中获取LogFile。
+	 * </p>
 	 * @param propertyResolver the {@link PropertyResolver} used to obtain the logging
 	 * properties
 	 * @return a {@link LogFile} or {@code null} if the environment didn't contain any

@@ -84,6 +84,9 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 /**
  * Configuration for hypermedia in HTTP endpoints.
+ * <p>
+ *     HTTP端点中超媒体的配置。
+ * </p>
  *
  * @author Dave Syer
  * @author Phillip Webb

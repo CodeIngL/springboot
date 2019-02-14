@@ -149,13 +149,19 @@ public class EndpointWebMvcAutoConfiguration
 		};
 	}
 
+	/**
+	 * 决定EndPoint是否是通过jmx暴露还是spring mvc暴露的
+	 */
 	@Override
 	public void afterSingletonsInstantiated() {
+		//不同
 		ManagementServerPort managementPort = ManagementServerPort.DIFFERENT;
+		//是web环境下的话
 		if (this.applicationContext instanceof WebApplicationContext) {
 			managementPort = ManagementServerPort
 					.get(this.applicationContext.getEnvironment(), this.beanFactory);
 		}
+		//不同的端口，则构建内置的一个容器进行暴露相关的web信息
 		if (managementPort == ManagementServerPort.DIFFERENT) {
 			if (this.applicationContext instanceof EmbeddedWebApplicationContext
 					&& ((EmbeddedWebApplicationContext) this.applicationContext)
@@ -168,6 +174,7 @@ public class EndpointWebMvcAutoConfiguration
 						+ "through JMX)");
 			}
 		}
+		//一样
 		if (managementPort == ManagementServerPort.SAME) {
 			if (new RelaxedPropertyResolver(this.applicationContext.getEnvironment(),
 					"management.ssl.").getProperty("enabled", Boolean.class, false)) {
@@ -363,14 +370,22 @@ public class EndpointWebMvcAutoConfiguration
 
 		DISABLE, SAME, DIFFERENT;
 
+		/**
+		 * 获得管理端服务的端口
+		 * @param environment
+		 * @param beanFactory
+		 * @return
+		 */
 		public static ManagementServerPort get(Environment environment,
 				BeanFactory beanFactory) {
+			//获得服务的端口
 			Integer serverPort = getPortProperty(environment, "server.");
 			if (serverPort == null && hasCustomBeanDefinition(beanFactory,
 					ServerProperties.class, ServerPropertiesAutoConfiguration.class)) {
 				serverPort = getTemporaryBean(beanFactory, ServerProperties.class)
 						.getPort();
 			}
+			//获得管理的端口
 			Integer managementPort = getPortProperty(environment, "management.");
 			if (managementPort == null && hasCustomBeanDefinition(beanFactory,
 					ManagementServerProperties.class,
@@ -378,9 +393,11 @@ public class EndpointWebMvcAutoConfiguration
 				managementPort = getTemporaryBean(beanFactory,
 						ManagementServerProperties.class).getPort();
 			}
+			//管理端口不存在就是关闭
 			if (managementPort != null && managementPort < 0) {
 				return DISABLE;
 			}
+			//端口一致的话，就可以了
 			return ((managementPort == null)
 					|| (serverPort == null && managementPort.equals(8080))
 					|| (managementPort != 0 && managementPort.equals(serverPort)) ? SAME

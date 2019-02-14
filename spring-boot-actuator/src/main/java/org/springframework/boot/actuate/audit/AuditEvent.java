@@ -40,6 +40,15 @@ import org.springframework.util.Assert;
  * implementing {@link ApplicationEventPublisherAware}) to publish AuditApplicationEvents
  * (wrappers for AuditEvent).
  *
+ * <p>
+ *     表示审计事件的值对象：在特定时间，特定用户或代理执行特定类型的操作。 此对象记录此类事件的详细信息。
+ * </p>
+ * <p>
+ *    用户可以注入{@link AuditEventRepository}来发布自己的事件，
+ *    或者使用Spring的{@link ApplicationEventPublisher}
+ *    （通常通过实现{@link ApplicationEventPublisherAware})获得）来发布AuditApplicationEvents（AuditEvent的包装器）。
+ * </p>
+ *
  * @author Dave Syer
  * @see AuditEventRepository
  */

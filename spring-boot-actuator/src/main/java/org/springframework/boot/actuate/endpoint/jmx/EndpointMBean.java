@@ -27,6 +27,10 @@ import org.springframework.util.ObjectUtils;
 /**
  * Base for adapters that convert {@link Endpoint} implementations to {@link JmxEndpoint}.
  *
+ * <p>
+ *     适用于将Endpoint实现转换为JmxEndpoint的适配器的基础。
+ * </p>
+ *
  * @author Christian Dupuis
  * @author Andy Wilkinson
  * @author Vedran Pavic
